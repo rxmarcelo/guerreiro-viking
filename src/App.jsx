@@ -17,7 +17,7 @@ const VikingLandingPage = () => {
       duration: 3000,
     });
     console.log(`Comprar ${productName} - Redirecionar para: ${checkoutUrl}`);
-    window.location.href = checkoutUrl;
+    window.open(checkoutUrl, '_blank');
   };
 
   const backgroundImage1 = "https://storage.googleapis.com/hostinger-horizons-assets-prod/f9552480-90c3-4198-9467-b312fd76a586/c40faa7c51cc2d7b54f6228aa1a73e4e.jpg";
