@@ -100,7 +100,7 @@
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.6); /* Dark overlay */
   z-index: 1;
-  height: 548px;
+  min-height: 1140px;
 }
 
 .content-z-index {

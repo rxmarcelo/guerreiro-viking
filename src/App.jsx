@@ -163,21 +163,35 @@ const VikingLandingPage = () => {
           >
             Escolha Sua Arma
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-            {[
+          
+          {(() => {
+            const pricingPlans = [
               { title: "Ficha Guerreiro Viking", price: "49,90", support: false, icon: Axe, borderColor: "border-primary/50", shadowColor: "hover:shadow-primary/40", buttonColor: "bg-primary hover:bg-yellow-600", idSuffix:"guerreiro_sem_suporte", checkoutUrl: "https://mpago.li/31PARuD" },
               { title: "Ficha Guerreiro Viking + Suporte", price: "99,90", support: true, icon: Shield, borderColor: "border-accent/70", shadowColor: "hover:shadow-accent/40", buttonColor: "bg-accent hover:bg-orange-400", idSuffix:"guerreiro_com_suporte", checkoutUrl: "https://mpago.li/2UVu9Ma"},
               { title: "Ficha Dama do Escudo", price: "49,90", support: false, icon: Axe, borderColor: "border-pink-400/50", shadowColor: "hover:shadow-pink-400/40", buttonColor: "bg-pink-500 hover:bg-pink-600", idSuffix:"valquiria_sem_suporte", checkoutUrl: "https://mpago.li/31PARuD" },
               { title: "Ficha Dama do Escudo + Suporte", price: "99,90", support: true, icon: Shield, borderColor: "border-purple-400/70", shadowColor: "hover:shadow-purple-400/40", buttonColor: "bg-purple-500 hover:bg-purple-600", idSuffix:"valquiria_com_suporte", checkoutUrl: "https://mpago.li/2UVu9Ma" },
               { title: "Combo Lendário: Guerreiro + Dama do Escudo", price: "149,85", support: true, icon: Zap, borderColor: "border-yellow-400/70", shadowColor: "hover:shadow-yellow-400/40", buttonColor: "bg-yellow-500 hover:bg-yellow-600", idSuffix:"combo_lendario_com_suporte", checkoutUrl: "https://mpago.li/2XW4YwY" },
-            ].map((plan, index) => (
+            ];
+
+            return (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            {pricingPlans.map((plan, index) => (
               <motion.div
                 key={plan.title + (plan.support ? '_suporte' : '')}
                 initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.7, delay: 0.2 + (index * 0.1) }}
+                className={`${
+                  index === pricingPlans.length - 1 && pricingPlans.length % 2 !== 0 
+                  ? "md:col-span-2 flex justify-center" 
+                  : ""
+                }`}
               >
-                <Card className={`bg-card/80 backdrop-blur-sm border-2 ${plan.borderColor} shadow-xl ${plan.shadowColor} transition-shadow duration-300 h-full flex flex-col`}>
+                <Card className={`bg-card/80 backdrop-blur-sm border-2 ${plan.borderColor} shadow-xl ${plan.shadowColor} transition-shadow duration-300 h-full flex flex-col ${
+                  index === pricingPlans.length - 1 && pricingPlans.length % 2 !== 0 
+                  ? "md:max-w-lg" // Limita a largura do card centralizado
+                  : "w-full"      // Garante que os outros cards ocupem a coluna
+                }`}>
                   <CardHeader className="items-center">
                     <plan.icon className={`h-16 w-16 ${plan.support ? 'text-accent' : 'text-primary'} mb-4`} />
                     <CardTitle 
@@ -226,6 +240,8 @@ const VikingLandingPage = () => {
               </motion.div>
             ))}
           </div>
+            );
+          })()}
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
