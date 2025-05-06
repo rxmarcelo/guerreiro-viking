@@ -10,15 +10,14 @@ import { useToast } from '@/components/ui/use-toast';
 const VikingLandingPage = () => {
   const { toast } = useToast();
 
-  const handleBuyClick = (productName) => {
+  const handleBuyClick = (productName, checkoutUrl) => {
     toast({
       title: "Redirecionando...",
       description: `Você será redirecionado para o Mercado Pago para comprar ${productName}.`,
       duration: 3000,
     });
-    // Placeholder for actual redirection logic
-    console.log(`Comprar ${productName} - Redirecionar para Mercado Pago`);
-    // window.location.href = "YOUR_MERCADO_PAGO_LINK_FOR_" + productName.replace(/\s+/g, '_');
+    console.log(`Comprar ${productName} - Redirecionar para: ${checkoutUrl}`);
+    window.location.href = checkoutUrl;
   };
 
   const backgroundImage1 = "https://storage.googleapis.com/hostinger-horizons-assets-prod/f9552480-90c3-4198-9467-b312fd76a586/c40faa7c51cc2d7b54f6228aa1a73e4e.jpg";
@@ -101,7 +100,7 @@ const VikingLandingPage = () => {
               transition={{ duration: 0.7, delay: 0.4 }}
               className="flex flex-col items-center"
             >
-              <h3 className="text-3xl text-accent mb-6 text-center font-bold" style={{ fontFamily: "'Cinzel Decorative', serif" }}>Ficha Valquíria Destemida</h3>
+              <h3 className="text-3xl text-accent mb-6 text-center font-bold" style={{ fontFamily: "'Cinzel Decorative', serif" }}>Ficha Dama do Escudo</h3>
               <img src={fichaFemininaImg} alt="Ficha de Treino Feminina Viking" className="rounded-lg shadow-2xl w-full max-w-md h-auto border-4 border-pink-400/70 object-cover aspect-[3/4] mb-6" />
               <p className="text-center text-gray-300 mb-6 max-w-md">Agilidade, poder e graça para forjar um corpo de guerreira. Perfeita para mulheres prontas para a batalha.</p>
                <Button size="lg" className="bg-pink-500 hover:bg-pink-600 text-white font-semibold" onClick={() => document.getElementById('pricing').scrollIntoView({ behavior: 'smooth' })}>
@@ -126,10 +125,10 @@ const VikingLandingPage = () => {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
             {[
-              { title: "Ficha Guerreiro Viking", price: "49,90", support: false, icon: Axe, borderColor: "border-primary/50", shadowColor: "hover:shadow-primary/40", buttonColor: "bg-primary hover:bg-yellow-600", idSuffix:"guerreiro_sem_suporte" },
-              { title: "Ficha Guerreiro Viking + Suporte", price: "99,90", support: true, icon: Shield, borderColor: "border-accent/70", shadowColor: "hover:shadow-accent/40", buttonColor: "bg-accent hover:bg-orange-400", idSuffix:"guerreiro_com_suporte"},
-              { title: "Ficha Valquíria Destemida", price: "49,90", support: false, icon: Axe, borderColor: "border-pink-400/50", shadowColor: "hover:shadow-pink-400/40", buttonColor: "bg-pink-500 hover:bg-pink-600", idSuffix:"valquiria_sem_suporte" },
-              { title: "Ficha Valquíria Destemida + Suporte", price: "99,90", support: true, icon: Shield, borderColor: "border-purple-400/70", shadowColor: "hover:shadow-purple-400/40", buttonColor: "bg-purple-500 hover:bg-purple-600", idSuffix:"valquiria_com_suporte" },
+              { title: "Ficha Guerreiro Viking", price: "49,90", support: false, icon: Axe, borderColor: "border-primary/50", shadowColor: "hover:shadow-primary/40", buttonColor: "bg-primary hover:bg-yellow-600", idSuffix:"guerreiro_sem_suporte", checkoutUrl: "https://mpago.li/31PARuD" },
+              { title: "Ficha Guerreiro Viking + Suporte", price: "99,90", support: true, icon: Shield, borderColor: "border-accent/70", shadowColor: "hover:shadow-accent/40", buttonColor: "bg-accent hover:bg-orange-400", idSuffix:"guerreiro_com_suporte", checkoutUrl: "https://mpago.li/2UVu9Ma"},
+              { title: "Ficha Dama do Escudo", price: "49,90", support: false, icon: Axe, borderColor: "border-pink-400/50", shadowColor: "hover:shadow-pink-400/40", buttonColor: "bg-pink-500 hover:bg-pink-600", idSuffix:"valquiria_sem_suporte", checkoutUrl: "https://mpago.li/31PARuD" },
+              { title: "Ficha Dama do Escudo + Suporte", price: "99,90", support: true, icon: Shield, borderColor: "border-purple-400/70", shadowColor: "hover:shadow-purple-400/40", buttonColor: "bg-purple-500 hover:bg-purple-600", idSuffix:"valquiria_com_suporte", checkoutUrl: "https://mpago.li/2UVu9Ma" },
             ].map((plan, index) => (
               <motion.div
                 key={plan.title + (plan.support ? '_suporte' : '')}
@@ -158,7 +157,7 @@ const VikingLandingPage = () => {
                     )}
                   </CardContent>
                   <CardFooter className="flex justify-center mt-auto">
-                    <Button variant={plan.support ? "secondary" : "primary"} size="lg" className={`w-full ${plan.buttonColor} text-primary-foreground font-semibold`} onClick={() => handleBuyClick(plan.title)}>
+                    <Button variant={plan.support ? "secondary" : "primary"} size="lg" className={`w-full ${plan.buttonColor} text-primary-foreground font-semibold`} onClick={() => handleBuyClick(plan.title, plan.checkoutUrl)}>
                       Comprar
                     </Button>
                   </CardFooter>
@@ -172,7 +171,7 @@ const VikingLandingPage = () => {
             transition={{ duration: 0.5, delay: 0.6 }}
             className="text-center text-gray-300 mt-12 text-lg text-shadow-soft"
           >
-            Comprou duas fichas (Guerreiro e Valquíria)? Ganhe 50% na segunda (aplicado manualmente após contato).
+            Comprou duas fichas (Guerreiro Viking e Dama do Escudo)? Ganhe 50% na segunda (aplicado manualmente após contato).
           </motion.p>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
@@ -189,7 +188,7 @@ const VikingLandingPage = () => {
         <div className="container mx-auto px-6 text-center text-gray-400">
           <div className="flex justify-center space-x-6 mb-6">
             <motion.a 
-              href="https://wa.me/SEUNUMERO" 
+              href="https://wa.me/+5511997711072" 
               target="_blank" 
               rel="noopener noreferrer"
               whileHover={{ scale: 1.1, color: '#25D366' }}
@@ -209,10 +208,10 @@ const VikingLandingPage = () => {
               <span className="sr-only">Instagram</span>
             </motion.a>
           </div>
-          <p className="mb-2">Suporte via WhatsApp: (XX) XXXXX-XXXX (Substitua pelo seu número)</p>
+          <p className="mb-2">Suporte via WhatsApp: (11) 99771-1072</p>
           <p className="mb-2">Instagram: @rafael.cardoso.treinador</p>
-          <p className="text-sm">&copy; {new Date().getFullYear()} Fichas de Treino Viking. Todos os direitos reservados.</p>
-          <p className="text-xs mt-2">Forjado por um Guerreiro Digital.</p>
+          <p className="text-sm">&copy; {new Date().getFullYear()} Treinamento Guerreiro Viking - Valhalla Training Center - Rafael Cardoso Treinador. Todos os direitos reservados.</p>
+          <p className="text-xs mt-2">Desenvolvido por Marcelo Rodrigues.</p>
         </div>
       </footer>
     </div>
