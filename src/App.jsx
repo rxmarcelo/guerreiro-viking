@@ -33,23 +33,20 @@ const VikingLandingPage = () => {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <header className="py-4 md:py-6 bg-background"> {/* Você pode ajustar o fundo se necessário */}
-        <div className="container mx-auto px-6 flex justify-center items-center space-x-6 md:space-x-10">
-          {/* Substitua src pelos seus logos e ajuste as classes de tamanho (h-XX) conforme necessário */}
-          <img src={logoVHTraining} alt="Logo VH Training Center" className="h-10 md:h-14" /> 
-          <img src={logoGuerreiroViking} alt="Logo Guerreiro Viking" className="h-10 md:h-14" />
-        </div>
-      </header>
       <Toaster />
       
       <motion.section
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
-        className="relative py-20 md:py-32 bg-cover bg-center bg-no-repeat bg-fixed bg-image-overlay"
+        className="relative pt-12 pb-20 md:pt-16 md:pb-32 bg-cover bg-center bg-no-repeat bg-fixed bg-image-overlay" // Ajustado padding-top
         style={{ backgroundImage: `url(${backgroundImage1})` }}
       >
         <div className="container mx-auto px-6 text-center content-z-index">
+          <div className="flex justify-center items-center space-x-4 sm:space-x-6 md:space-x-10 mb-8 md:mb-12">
+            <img src={logoVHTraining} alt="Logo Rafael Cardoso Treinador" className="w-36 sm:w-44 md:w-48 h-auto" /> 
+            <img src={logoGuerreiroViking} alt="Logo Valhalla Training Center" className="w-36 sm:w-44 md:w-48 h-auto" />
+          </div>
           <motion.h1 
             initial={{ y: -50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
