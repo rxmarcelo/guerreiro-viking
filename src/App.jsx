@@ -197,7 +197,7 @@ const VikingLandingPage = () => {
                     <CardTitle 
                       className={`text-2xl lg:text-3xl text-center ${
                         plan.title.includes("Combo") ? 'text-yellow-400' : 
-                        plan.support ? (plan.title.includes("Dama") ? 'text-purple-400' : 'text-accent') : 
+                        plan.support ? (plan.title.includes("Dama") ? 'text-red-400' : 'text-accent') : 
                         (plan.title.includes("Dama") ? 'text-red-400' : 'text-primary')
                       }`} 
                       style={{ fontFamily: "'Cinzel Decorative', serif" }}
@@ -205,7 +205,7 @@ const VikingLandingPage = () => {
                     <CardDescription 
                       className={`text-2xl font-bold text-center ${
                         plan.title.includes("Combo") ? 'text-yellow-300' :
-                        plan.support ? (plan.title.includes("Dama") ? 'text-purple-300' : 'text-primary') : 
+                        plan.support ? (plan.title.includes("Dama") ? 'text-red-300' : 'text-primary') : 
                         (plan.title.includes("Dama") ? 'text-red-300' : 'text-accent')
                       }`}
                     >R$ {plan.price}</CardDescription>
