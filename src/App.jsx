@@ -54,6 +54,16 @@ const VikingLandingPage = () => {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="text-xl md:text-2xl text-gray-200 mb-8 max-w-3xl mx-auto text-shadow-soft"
           >
+            Olá meu nome é Rafael Queiroz Cardoso – CREF 186915-G
+
+            Com 24 anos de experiência em treinamento, experimentei diversas metodologias ao longo da minha jornada. Treinei com fisiculturistas e grandes treinadores, absorvendo na prática o que realmente funciona.
+
+            Ao longo desse tempo, aliei o embasamento científico com a realidade do treino intenso, aplicando essa fusão em mim mesmo e em meus alunos.
+
+            Depois de anos de tentativa, erro e refinamento, posso afirmar: essa é a melhor forma de treinar que já encontrei para maximizar a hipertrofia muscular — com estratégia, segurança e resultado de verdade.
+
+            Aqui você encontra um método testado, validado e direto ao ponto.
+            
             Transforme seu físico com as fichas de treino mais brutais da internet. Treinos avançados, organização por semanas, imagens ilustrativas e estrutura para progressão de cargas.
           </motion.p>
           <motion.div
