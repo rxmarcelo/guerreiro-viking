@@ -100,11 +100,12 @@
   bottom: 0;   /* Garante que o overlay se estique até a borda inferior por padrão. */
   background-color: rgba(0, 0, 0, 0.5); /* Ou qualquer que seja a cor/gradiente do seu overlay */
   z-index: 0; /* Importante para que fique abaixo do conteúdo */
+  height: 200%;
 }
 
 /* Classe modificadora para o overlay da primeira seção (hero) */
 .hero-overlay-tall.bg-image-overlay::before {
-  height: 200%; /* Faz o overlay ser duas vezes a altura da seção */
+  height: 100%; /* Faz o overlay ser duas vezes a altura da seção */
   bottom: auto; /* Permite que 'height' dite a altura, em vez de 'bottom: 0' */
 }
 
