@@ -45,7 +45,7 @@ const VikingLandingPage = () => {
         <div className="container mx-auto px-6 text-center content-z-index">
           <div className="flex justify-center items-center space-x-4 sm:space-x-6 md:space-x-10 mb-8 md:mb-12">
             <img src={logoVHTraining} alt="Logo Rafael Cardoso Treinador" className="w-36 sm:w-44 md:w-48 h-auto" /> 
-            <img src={logoGuerreiroViking} alt="Logo Valhalla Training Center" className="w-36 sm:w-44 md:w-48 h-auto" />
+            <img src={logoGuerreiroViking} alt="Logo Valhalla Training Center" className="w-40 sm:w-52 md:w-56 h-auto" /> 
           </div>
           <motion.h1 
             initial={{ y: -50, opacity: 0 }}

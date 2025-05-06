@@ -104,6 +104,7 @@
   background-color: rgba(0, 0, 0, 0.5); /* Ou qualquer que seja a cor/gradiente do seu overlay */
   z-index: 0; /* Importante para que fique abaixo do conteúdo */
   /* Quaisquer outros estilos do seu overlay */
+  height: 162%;
 }
 
 .content-z-index { /* Ou o nome que você usa para o container do conteúdo */
