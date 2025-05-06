@@ -97,14 +97,15 @@
   top: 0;
   left: 0;
   right: 0;
-  bottom: 0;   /* Esta é a chave! Garante que o overlay se estique até a borda inferior. */
-  /* OU, alternativamente:
-  width: 100%;
-  height: 100%; */
+  bottom: 0;   /* Garante que o overlay se estique até a borda inferior por padrão. */
   background-color: rgba(0, 0, 0, 0.5); /* Ou qualquer que seja a cor/gradiente do seu overlay */
   z-index: 0; /* Importante para que fique abaixo do conteúdo */
-  /* Quaisquer outros estilos do seu overlay */
-  height: 200%;
+}
+
+/* Classe modificadora para o overlay da primeira seção (hero) */
+.hero-overlay-tall.bg-image-overlay::before {
+  height: 200%; /* Faz o overlay ser duas vezes a altura da seção */
+  bottom: auto; /* Permite que 'height' dite a altura, em vez de 'bottom: 0' */
 }
 
 .content-z-index { /* Ou o nome que você usa para o container do conteúdo */

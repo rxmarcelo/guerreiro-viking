@@ -39,7 +39,7 @@ const VikingLandingPage = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
-        className="relative pt-12 pb-20 md:pt-16 md:pb-32 bg-cover bg-center bg-no-repeat bg-fixed bg-image-overlay" // Ajustado padding-top
+        className="relative pt-12 pb-20 md:pt-16 md:pb-32 bg-cover bg-center bg-no-repeat bg-fixed bg-image-overlay hero-overlay-tall" // ADICIONADO hero-overlay-tall
         style={{ backgroundImage: `url(${backgroundImage1})` }}
       >
         <div className="container mx-auto px-6 text-center content-z-index">
