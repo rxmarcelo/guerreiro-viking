@@ -140,10 +140,10 @@ const VikingLandingPage = () => {
               transition={{ duration: 0.7, delay: 0.4 }}
               className="flex flex-col items-center"
             >
-              <h3 className="text-3xl text-accent mb-6 text-center font-bold" style={{ fontFamily: "'Cinzel Decorative', serif" }}>Ficha Dama do Escudo</h3>
-              <img src={fichaFemininaImg} alt="Ficha de Treino Feminina Viking" className="rounded-lg shadow-2xl w-full max-w-md h-auto border-4 border-pink-400/70 object-cover aspect-[3/4] mb-6" />
+              <h3 className="text-3xl text-red-400 mb-6 text-center font-bold" style={{ fontFamily: "'Cinzel Decorative', serif" }}>Ficha Dama do Escudo</h3>
+              <img src={fichaFemininaImg} alt="Ficha de Treino Feminina Viking" className="rounded-lg shadow-2xl w-full max-w-md h-auto border-4 border-red-400/70 object-cover aspect-[3/4] mb-6" />
               <p className="text-center text-gray-300 mb-6 max-w-md">Agilidade, poder e graça para forjar um corpo de guerreira. Perfeita para mulheres prontas para a batalha.</p>
-               <Button size="lg" className="bg-pink-500 hover:bg-pink-600 text-white font-semibold" onClick={() => document.getElementById('pricing').scrollIntoView({ behavior: 'smooth' })}>
+               <Button size="lg" className="bg-red-500 hover:bg-red-600 text-white font-semibold" onClick={() => document.getElementById('pricing').scrollIntoView({ behavior: 'smooth' })}>
                 Ver Planos <Heart className="ml-2 h-5 w-5" />
               </Button>
             </motion.div>
@@ -168,7 +168,7 @@ const VikingLandingPage = () => {
             const pricingPlans = [
               { title: "Ficha Guerreiro Viking", price: "49,90", support: false, icon: Axe, borderColor: "border-primary/50", shadowColor: "hover:shadow-primary/40", buttonColor: "bg-primary hover:bg-yellow-600", idSuffix:"guerreiro_sem_suporte", checkoutUrl: "https://mpago.li/31PARuD" },
               { title: "Ficha Guerreiro Viking + Suporte", price: "99,90", support: true, icon: Shield, borderColor: "border-accent/70", shadowColor: "hover:shadow-accent/40", buttonColor: "bg-accent hover:bg-orange-400", idSuffix:"guerreiro_com_suporte", checkoutUrl: "https://mpago.li/2UVu9Ma"},
-              { title: "Ficha Dama do Escudo", price: "49,90", support: false, icon: Axe, borderColor: "border-pink-400/50", shadowColor: "hover:shadow-pink-400/40", buttonColor: "bg-pink-500 hover:bg-pink-600", idSuffix:"valquiria_sem_suporte", checkoutUrl: "https://mpago.li/31PARuD" },
+              { title: "Ficha Dama do Escudo", price: "49,90", support: false, icon: Axe, borderColor: "border-red-400/50", shadowColor: "hover:shadow-red-400/40", buttonColor: "bg-red-500 hover:bg-red-600", idSuffix:"valquiria_sem_suporte", checkoutUrl: "https://mpago.li/31PARuD" },
               { title: "Ficha Dama do Escudo + Suporte", price: "99,90", support: true, icon: Shield, borderColor: "border-purple-400/70", shadowColor: "hover:shadow-purple-400/40", buttonColor: "bg-purple-500 hover:bg-purple-600", idSuffix:"valquiria_com_suporte", checkoutUrl: "https://mpago.li/2UVu9Ma" },
               { title: "Combo Lendário: Guerreiro + Dama do Escudo", price: "149,85", support: true, icon: Zap, borderColor: "border-yellow-400/70", shadowColor: "hover:shadow-yellow-400/40", buttonColor: "bg-yellow-500 hover:bg-yellow-600", idSuffix:"combo_lendario_com_suporte", checkoutUrl: "https://mpago.li/2XW4YwY" },
             ];
@@ -198,7 +198,7 @@ const VikingLandingPage = () => {
                       className={`text-2xl lg:text-3xl text-center ${
                         plan.title.includes("Combo") ? 'text-yellow-400' : 
                         plan.support ? (plan.title.includes("Dama") ? 'text-purple-400' : 'text-accent') : 
-                        (plan.title.includes("Dama") ? 'text-pink-400' : 'text-primary')
+                        (plan.title.includes("Dama") ? 'text-red-400' : 'text-primary')
                       }`} 
                       style={{ fontFamily: "'Cinzel Decorative', serif" }}
                     >{plan.title}</CardTitle>
@@ -206,7 +206,7 @@ const VikingLandingPage = () => {
                       className={`text-2xl font-bold text-center ${
                         plan.title.includes("Combo") ? 'text-yellow-300' :
                         plan.support ? (plan.title.includes("Dama") ? 'text-purple-300' : 'text-primary') : 
-                        (plan.title.includes("Dama") ? 'text-pink-300' : 'text-accent')
+                        (plan.title.includes("Dama") ? 'text-red-300' : 'text-accent')
                       }`}
                     >R$ {plan.price}</CardDescription>
                   </CardHeader>
