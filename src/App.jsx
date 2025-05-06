@@ -55,15 +55,45 @@ const VikingLandingPage = () => {
             className="text-xl md:text-2xl text-gray-200 mb-8 max-w-3xl mx-auto text-shadow-soft"
           >
             Olá meu nome é Rafael Queiroz Cardoso – CREF 186915-G
-
+          </motion.p>
+          <motion.p 
+            initial={{ y: 50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="text-xl md:text-2xl text-gray-200 mb-8 max-w-3xl mx-auto text-shadow-soft"
+          >
             Com 24 anos de experiência em treinamento, experimentei diversas metodologias ao longo da minha jornada. Treinei com fisiculturistas e grandes treinadores, absorvendo na prática o que realmente funciona.
-
+          </motion.p>
+          <motion.p 
+            initial={{ y: 50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="text-xl md:text-2xl text-gray-200 mb-8 max-w-3xl mx-auto text-shadow-soft"
+          >
             Ao longo desse tempo, aliei o embasamento científico com a realidade do treino intenso, aplicando essa fusão em mim mesmo e em meus alunos.
-
+          </motion.p>
+          <motion.p 
+            initial={{ y: 50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="text-xl md:text-2xl text-gray-200 mb-8 max-w-3xl mx-auto text-shadow-soft"
+          >
             Depois de anos de tentativa, erro e refinamento, posso afirmar: essa é a melhor forma de treinar que já encontrei para maximizar a hipertrofia muscular — com estratégia, segurança e resultado de verdade.
-
-            Aqui você encontra um método testado, validado e direto ao ponto.
-            
+          </motion.p>
+          <motion.p 
+            initial={{ y: 50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="text-xl md:text-2xl text-gray-200 mb-8 max-w-3xl mx-auto text-shadow-soft"
+            >
+              Aqui você encontra um método testado, validado e direto ao ponto.
+          </motion.p>
+          <motion.p 
+            initial={{ y: 50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="text-xl md:text-2xl text-gray-200 mb-8 max-w-3xl mx-auto text-shadow-soft"
+          >
             Transforme seu físico com as fichas de treino mais brutais da internet. Treinos avançados, organização por semanas, imagens ilustrativas e estrutura para progressão de cargas.
           </motion.p>
           <motion.div
