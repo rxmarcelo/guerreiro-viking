@@ -7,6 +7,10 @@ import { Axe, Shield, Instagram, MessageSquare, Zap, Heart } from 'lucide-react'
 import { Toaster } from '@/components/ui/toaster';
 import { useToast } from '@/components/ui/use-toast';
 
+// Importe seus logos da pasta src/img
+import logoVHTraining from './img/rafael-cardoso.png'; // Ajuste o nome do arquivo se necessário
+import logoGuerreiroViking from './img/valhalla2.png'; // Ajuste o nome do arquivo se necessário
+
 const VikingLandingPage = () => {
   const { toast } = useToast();
 
@@ -22,13 +26,20 @@ const VikingLandingPage = () => {
 
   const backgroundImage1 = "https://storage.googleapis.com/hostinger-horizons-assets-prod/f9552480-90c3-4198-9467-b312fd76a586/c40faa7c51cc2d7b54f6228aa1a73e4e.jpg";
   const backgroundImage2 = "https://storage.googleapis.com/hostinger-horizons-assets-prod/f9552480-90c3-4198-9467-b312fd76a586/83022a09cf98a59c5fd3aa9285b5931b.jpg";
-  
+
   const fichaMasculinaImg = "https://storage.googleapis.com/hostinger-horizons-assets-prod/f9552480-90c3-4198-9467-b312fd76a586/7f386aa144b9abe89ae38eb70835d1bc.jpg";
   const fichaFemininaImg = "https://storage.googleapis.com/hostinger-horizons-assets-prod/f9552480-90c3-4198-9467-b312fd76a586/7ab4904de7f02114916189d7d341fe89.jpg";
 
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <header className="py-4 md:py-6 bg-background"> {/* Você pode ajustar o fundo se necessário */}
+        <div className="container mx-auto px-6 flex justify-center items-center space-x-6 md:space-x-10">
+          {/* Substitua src pelos seus logos e ajuste as classes de tamanho (h-XX) conforme necessário */}
+          <img src={logoVHTraining} alt="Logo VH Training Center" className="h-10 md:h-14" /> 
+          <img src={logoGuerreiroViking} alt="Logo Guerreiro Viking" className="h-10 md:h-14" />
+        </div>
+      </header>
       <Toaster />
       
       <motion.section
