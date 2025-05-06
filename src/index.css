@@ -97,20 +97,38 @@
   top: 0;
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom: 0; /* Garante que o overlay preencha 100% da altura do pai por padrão */
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 0;
-  height: 200%;
+  /* Removida a altura explícita daqui para um comportamento padrão mais robusto */
 }
 
-
+/* Estilo base (mobile-first) para o overlay alto da seção hero */
 .hero-overlay-tall.bg-image-overlay::before {
-  height: 400%;
-  bottom: auto;
+  height: 450%; /* Altura para dispositivos móveis */
+  bottom: auto; /* Permite que a 'height' defina a altura a partir do topo */
+}
+
+/* Estilo para telas médias (ex: tablets) */
+@media screen and (min-width: 768px) {
+  .hero-overlay-tall.bg-image-overlay::before {
+    height: 335%; /* Mantém a altura que estava para telas médias */
+  }
+}
+
+/* Estilo para telas grandes (ex: desktops) */
+@media screen and (min-width: 1024px){
+  .hero-overlay-tall.bg-image-overlay::before {
+    height: 100%; /* Mantém a altura que estava para telas grandes */
+  }
 }
 
 .content-z-index {
   position: relative;
   z-index: 1;
 }
-  
+
+footer {
+  position: relative;
+  z-index: 1;
+}
