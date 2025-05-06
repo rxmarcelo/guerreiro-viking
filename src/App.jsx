@@ -117,7 +117,7 @@ const VikingLandingPage = () => {
             className="text-4xl md:text-5xl font-bold text-center text-primary mb-16 text-shadow-hard"
             style={{ fontFamily: "'Cinzel Decorative', serif" }}
           >
-            Para Guerreiros e Valquírias
+            Para Guerreiros e Guerreiras
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-start">
             <motion.div
@@ -217,6 +217,7 @@ const VikingLandingPage = () => {
                         <p className="mt-2">Inclui 60 dias de suporte via WhatsApp para AMBAS as fichas.</p>
                         <p className="mt-2">Desconto de R$ 99,90 em consultoria online (aplicado uma vez).</p>
                         <p className="mt-4 text-sm">A combinação definitiva para um treino completo e assistido!</p>
+                        <p className="mt-4 text-sm">Neste combo, a segunda ficha sai com 50% de desconto.</p>
                       </>
                     ) : plan.support ? (
                       <>
@@ -242,14 +243,6 @@ const VikingLandingPage = () => {
           </div>
             );
           })()}
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.6 }}
-            className="text-center text-gray-300 mt-12 text-lg text-shadow-soft"
-          >
-            Comprou duas fichas (Guerreiro Viking e Dama do Escudo)? Ganhe 50% na segunda (aplicado manualmente após contato).
-          </motion.p>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
