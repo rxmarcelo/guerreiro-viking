@@ -110,7 +110,7 @@ const VikingLandingPage = () => {
 
       <section 
         id="fichas" 
-        className="py-16 md:py-24 bg-background"
+        className="py-16 md:py-24 bg-background relative z-10" // Adicionado relative e z-10
       >
         <div className="container mx-auto px-6">
           <h2 
