@@ -139,6 +139,7 @@ const VikingLandingPage = () => {
               { title: "Ficha Guerreiro Viking + Suporte", price: "99,90", support: true, icon: Shield, borderColor: "border-accent/70", shadowColor: "hover:shadow-accent/40", buttonColor: "bg-accent hover:bg-orange-400", idSuffix:"guerreiro_com_suporte", checkoutUrl: "https://mpago.li/2UVu9Ma"},
               { title: "Ficha Dama do Escudo", price: "49,90", support: false, icon: Axe, borderColor: "border-pink-400/50", shadowColor: "hover:shadow-pink-400/40", buttonColor: "bg-pink-500 hover:bg-pink-600", idSuffix:"valquiria_sem_suporte", checkoutUrl: "https://mpago.li/31PARuD" },
               { title: "Ficha Dama do Escudo + Suporte", price: "99,90", support: true, icon: Shield, borderColor: "border-purple-400/70", shadowColor: "hover:shadow-purple-400/40", buttonColor: "bg-purple-500 hover:bg-purple-600", idSuffix:"valquiria_com_suporte", checkoutUrl: "https://mpago.li/2UVu9Ma" },
+              { title: "Combo Lendário: Guerreiro + Dama do Escudo", price: "149,85", support: true, icon: Zap, borderColor: "border-yellow-400/70", shadowColor: "hover:shadow-yellow-400/40", buttonColor: "bg-yellow-500 hover:bg-yellow-600", idSuffix:"combo_lendario_com_suporte", checkoutUrl: "https://mpago.li/2XW4YwY" },
             ].map((plan, index) => (
               <motion.div
                 key={plan.title + (plan.support ? '_suporte' : '')}
@@ -149,20 +150,40 @@ const VikingLandingPage = () => {
                 <Card className={`bg-card/80 backdrop-blur-sm border-2 ${plan.borderColor} shadow-xl ${plan.shadowColor} transition-shadow duration-300 h-full flex flex-col`}>
                   <CardHeader className="items-center">
                     <plan.icon className={`h-16 w-16 ${plan.support ? 'text-accent' : 'text-primary'} mb-4`} />
-                    <CardTitle className={`text-2xl lg:text-3xl ${plan.support ? (plan.title.includes("Valquíria") ? 'text-purple-400' : 'text-accent') : (plan.title.includes("Valquíria") ? 'text-pink-400' : 'text-primary')} text-center`} style={{ fontFamily: "'Cinzel Decorative', serif" }}>{plan.title}</CardTitle>
-                    <CardDescription className={`text-2xl font-bold ${plan.support ? (plan.title.includes("Valquíria") ? 'text-purple-300' : 'text-primary') : (plan.title.includes("Valquíria") ? 'text-pink-300' : 'text-accent')} text-center`}>R$ {plan.price}</CardDescription>
+                    <CardTitle 
+                      className={`text-2xl lg:text-3xl text-center ${
+                        plan.title.includes("Combo") ? 'text-yellow-400' : 
+                        plan.support ? (plan.title.includes("Dama") ? 'text-purple-400' : 'text-accent') : 
+                        (plan.title.includes("Dama") ? 'text-pink-400' : 'text-primary')
+                      }`} 
+                      style={{ fontFamily: "'Cinzel Decorative', serif" }}
+                    >{plan.title}</CardTitle>
+                    <CardDescription 
+                      className={`text-2xl font-bold text-center ${
+                        plan.title.includes("Combo") ? 'text-yellow-300' :
+                        plan.support ? (plan.title.includes("Dama") ? 'text-purple-300' : 'text-primary') : 
+                        (plan.title.includes("Dama") ? 'text-pink-300' : 'text-accent')
+                      }`}
+                    >R$ {plan.price}</CardDescription>
                   </CardHeader>
                   <CardContent className="text-center text-gray-300 flex-grow">
-                    {plan.support ? (
+                    {plan.title.includes("Combo") ? (
+                      <>
+                        <p>Leve as fichas Guerreiro Viking e Dama do Escudo juntas!</p>
+                        <p className="mt-2">Inclui 60 dias de suporte via WhatsApp para AMBAS as fichas.</p>
+                        <p className="mt-2">Desconto de R$ 99,90 em consultoria online (aplicado uma vez).</p>
+                        <p className="mt-4 text-sm">A combinação definitiva para um treino completo e assistido!</p>
+                      </>
+                    ) : plan.support ? (
                       <>
                         <p>Inclui 60 dias de suporte via WhatsApp.</p>
                         <p className="mt-2">Desconto de R$ 99,90 em consultoria online.</p>
-                        <p className="mt-4 text-sm">Para {plan.title.includes("Guerreiro") ? "guerreiros" : "valquírias"} que buscam orientação total!</p>
+                        <p className="mt-4 text-sm">Para {plan.title.includes("Guerreiro") ? "guerreiros" : "damas"} que buscam orientação total!</p>
                       </>
                     ) : (
                       <>
                         <p>Versão sem suporte.</p>
-                        <p className="mt-4 text-sm">Ideal para {plan.title.includes("Guerreiro") ? "guerreiros" : "valquírias"} auto-suficientes!</p>
+                        <p className="mt-4 text-sm">Ideal para {plan.title.includes("Guerreiro") ? "guerreiros" : "damas"} auto-suficientes!</p>
                       </>
                     )}
                   </CardContent>
