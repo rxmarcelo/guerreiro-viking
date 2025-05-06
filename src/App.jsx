@@ -39,8 +39,8 @@ const VikingLandingPage = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
-        className="relative pt-12 pb-20 md:pt-16 md:pb-32 bg-cover bg-center bg-no-repeat bg-fixed bg-image-overlay hero-overlay-tall" // ADICIONADO hero-overlay-tall
-        style={{ backgroundImage: `url(${backgroundImage1})` }}
+        className="relative pt-12 pb-20 md:pt-16 md:pb-32 bg-cover bg-center bg-no-repeat bg-fixed bg-image-overlay hero-overlay-tall"
+        style={{ backgroundImage: `url(${backgroundImage1})`, backgroundPosition: 'top' }}
       >
         <div className="container mx-auto px-6 text-center content-z-index">
           <div className="flex justify-center items-center space-x-4 sm:space-x-6 md:space-x-10 mb-8 md:mb-12">
@@ -162,7 +162,7 @@ const VikingLandingPage = () => {
       <section 
         id="pricing" 
         className="py-16 md:py-24 bg-cover bg-center bg-no-repeat bg-fixed bg-image-overlay"
-        style={{ backgroundImage: `url(${backgroundImage2})` }}
+        style={{ backgroundImage: `url(${backgroundImage2})`, backgroundPosition: 'top' }}
       >
         <div className="container mx-auto px-6 content-z-index">
           <h2 
