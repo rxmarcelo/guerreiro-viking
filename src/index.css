@@ -105,7 +105,7 @@
 
 /* Estilo base (mobile-first) para o overlay alto da seção hero */
 .hero-overlay-tall.bg-image-overlay::before {
-  height: 450%; /* Altura para dispositivos móveis */
+  height: 430%; /* Altura para dispositivos móveis */
   bottom: auto; /* Permite que a 'height' defina a altura a partir do topo */
 }
 
