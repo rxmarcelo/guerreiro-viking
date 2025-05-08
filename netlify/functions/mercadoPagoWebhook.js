@@ -85,7 +85,16 @@ exports.handler = async function (event, context) {
     };
   }
 
-  const userEmail = paymentInfo.payer.email;
+  // Use optional chaining para segurança e verifique se o e-mail foi obtido
+  const userEmail = paymentInfo.payer?.email;
+
+  if (!userEmail) {
+    console.error(`E-mail do pagador não encontrado no paymentInfo para o Payment ID: ${paymentId}. Detalhes do pagador:`, paymentInfo.payer);
+    return {
+      statusCode: 400, // Ou 500, dependendo se considera isso um erro do cliente ou do sistema
+      body: "E-mail do pagador não encontrado. Não é possível enviar a notificação.",
+    };
+  }
 
   // Configuração dos produtos
   const productConfigurations = [
