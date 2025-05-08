@@ -142,7 +142,7 @@ exports.handler = async function (event, context) {
     });
 
     await transporter.sendMail({
-      from: `"Rafael Cardoso - Projeto Guerreiro Viking" <${process.env.EMAIL_FROM}>`,
+      from: `"Rafael Cardoso - Ficha de treino de Valhalla" <${process.env.EMAIL_FROM}>`,
       to: userEmail,
       subject: "Aqui está sua ficha de treino, direto de Valhalla!",
       text: "Obrigado pela compra! Segue em anexo o seu treinamento digno de um(a) verdadeiro(a) guerreiro(a). Bom treino!",
