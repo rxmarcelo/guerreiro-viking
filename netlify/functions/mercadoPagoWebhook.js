@@ -40,6 +40,8 @@ exports.handler = async function (event, context) {
     };
   }
 
+  console.log(data)
+
   const { action, type, data: { id: paymentId } = {} } = data;
 
   console.log(`Webhook recebido - Action: ${action}, Type: ${type}, Payment ID: ${paymentId}`);
