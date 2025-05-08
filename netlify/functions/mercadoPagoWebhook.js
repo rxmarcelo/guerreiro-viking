@@ -42,9 +42,15 @@ exports.handler = async function (event, context) {
 
   console.log(data)
 
-  const { action, type, data: { id: paymentId } = {} } = data;
+  // A desestruturação original esperava uma estrutura aninhada que não corresponde ao log.
+  // const { action, type, data: { id: paymentId } = {} } = data;
 
-  console.log(`Webhook recebido - Action: ${action}, Type: ${type}, Payment ID: ${paymentId}`);
+  // Ajustando para a estrutura observada no log: { resource: 'ID_PAGAMENTO', topic: 'payment' }
+  const type = data.topic;
+  const paymentId = data.resource;
+  const action = data.action; // 'action' pode não estar presente neste formato de payload.
+
+  console.log(`Webhook recebido - Action: ${action || 'N/A'}, Type: ${type}, Payment ID: ${paymentId}`);
 
   if (type !== "payment" || !paymentId) {
     console.log("Notificação ignorada: não é um pagamento ou ID do pagamento ausente.");
