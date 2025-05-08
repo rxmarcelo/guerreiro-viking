@@ -87,10 +87,15 @@ exports.handler = async function (event, context) {
   }
 
   let userEmail = paymentInfo.payer?.email;
+  // Verifica se o e-mail inicial é uma string em branco
+  if (typeof userEmail === 'string' && userEmail.trim() === "") {
+    console.log(`E-mail do pagador ('${userEmail}') nos dados do pagamento estava em branco. Tratando como ausente.`);
+    userEmail = undefined; // Garante que seja falsy para as próximas verificações
+  }
   const customerId = paymentInfo.payer?.id;
 
   if (!userEmail) {
-    console.log(`E-mail não encontrado diretamente nos dados do pagamento para Payment ID: ${paymentId}. Tentando buscar via Customer ID: ${customerId}`);
+    console.log(`E-mail não encontrado (ou estava em branco) nos dados do pagamento para Payment ID: ${paymentId}. Tentando buscar via Customer ID: ${customerId}`);
     if (customerId) {
       try {
         const customerResponse = await axios.get(`https://api.mercadopago.com/v1/customers/${customerId}`, {
@@ -98,9 +103,13 @@ exports.handler = async function (event, context) {
             Authorization: `Bearer ${process.env.MERCADO_PAGO_ACCESS_TOKEN}`,
           },
         });
-        if (customerResponse.data && customerResponse.data.email) {
+        // Verifica se o e-mail do cliente existe, é uma string e não está em branco após o trim
+        if (customerResponse.data && typeof customerResponse.data.email === 'string' && customerResponse.data.email.trim() !== "") {
           userEmail = customerResponse.data.email;
           console.log(`E-mail do pagador obtido via API de Clientes: ${userEmail}`);
+        } else if (customerResponse.data && customerResponse.data.hasOwnProperty('email')) {
+          // Log se o campo email existe mas está em branco ou não é uma string utilizável
+          console.log(`Cliente ${customerId} encontrado, mas o e-mail registrado está em branco ou é inválido ('${customerResponse.data.email}').`);
         } else {
           console.log(`Cliente ${customerId} encontrado, mas sem e-mail registrado.`);
         }
@@ -111,7 +120,8 @@ exports.handler = async function (event, context) {
     }
   }
 
-  // Se, mesmo após a tentativa de buscar pelo customerId, o e-mail não for encontrado
+  // Se, mesmo após todas as tentativas, o e-mail não for encontrado (ou for inválido/em branco)
+  // A lógica anterior deve garantir que userEmail é undefined se estava em branco.
   if (!userEmail) {
     const adminEmail = process.env.ADMIN_EMAIL;
     const errorMessage = `ALERTA: E-mail do pagador não pôde ser determinado para o Payment ID: ${paymentId}. Payer ID: ${customerId}. Detalhes do pagamento: ${JSON.stringify(paymentInfo.payer)}. Ação manual necessária.`;
