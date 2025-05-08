@@ -91,7 +91,7 @@ exports.handler = async function (event, context) {
       from: `"Rafael Cardoso - Projeto Guerreiro Viking" <${process.env.EMAIL_FROM}>`,
       to: userEmail,
       subject: "Aqui está sua ficha de treino, direto de Valhalla!",
-      text: "Obrigado pela compra! Segue em anexo o seu treinamento digno de um verdadeiro guerreiro. Bom treino!",
+      text: "Obrigado pela compra! Segue em anexo o seu treinamento digno de um(a) verdadeiro(a) guerreiro(a). Bom treino!",
       attachments: [
         {
           filename: nomeArquivo,
