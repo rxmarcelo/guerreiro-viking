@@ -145,6 +145,7 @@ exports.handler = async function (event, context) {
     const adminEmail = process.env.ADMIN_EMAIL;
     const errorMessage = `ALERTA: E-mail do pagador não pôde ser determinado para o Payment ID: ${paymentId}. Payer ID: ${customerId}. Detalhes do pagamento: ${JSON.stringify(paymentInfo.payer)}. Ação manual necessária.`;
     console.error(errorMessage);
+    console.log(`[DEBUG Admin Email] Valor de process.env.ADMIN_EMAIL: '${adminEmail}'`);
 
     if (adminEmail) {
       try {
@@ -165,6 +166,8 @@ exports.handler = async function (event, context) {
       } catch (emailError) {
         console.error("Erro ao enviar e-mail de alerta para o administrador:", emailError);
       }
+    } else {
+      console.log("[DEBUG Admin Email] adminEmail é Falsy (undefined, null, ou string vazia). Pulando envio de e-mail de alerta.");
     }
     return { // Responde 200 ao MP para evitar reenvios desnecessários, já que o problema é de dados
       statusCode: 200,
