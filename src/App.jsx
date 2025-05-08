@@ -176,8 +176,8 @@ const VikingLandingPage = () => {
             const pricingPlans = [
               { title: "Ficha Guerreiro Viking", price: "49,90", support: false, icon: Axe, borderColor: "border-primary/50", shadowColor: "hover:shadow-primary/40", buttonColor: "bg-primary hover:bg-yellow-600", idSuffix:"guerreiro_sem_suporte", checkoutUrl: "https://mpago.li/31PARuD" },
               { title: "Ficha Guerreiro Viking + Suporte", price: "99,90", support: true, icon: Shield, borderColor: "border-accent/70", shadowColor: "hover:shadow-accent/40", buttonColor: "bg-accent hover:bg-orange-400", idSuffix:"guerreiro_com_suporte", checkoutUrl: "https://mpago.li/2UVu9Ma"},
-              { title: "Ficha Dama do Escudo", price: "49,90", support: false, icon: Axe, borderColor: "border-red-400/50", shadowColor: "hover:shadow-red-400/40", buttonColor: "bg-red-500 hover:bg-red-600", idSuffix:"valquiria_sem_suporte", checkoutUrl: "https://mpago.li/31PARuD" },
-              { title: "Ficha Dama do Escudo + Suporte", price: "99,90", support: true, icon: Shield, borderColor: "border-red-400/50", shadowColor: "hover:shadow-red-400/50", buttonColor: "bg-red-600 hover:bg-red-700", idSuffix:"valquiria_com_suporte", checkoutUrl: "https://mpago.li/2UVu9Ma" },
+              { title: "Ficha Dama do Escudo", price: "49,90", support: false, icon: Axe, borderColor: "border-red-400/50", shadowColor: "hover:shadow-red-400/40", buttonColor: "bg-red-500 hover:bg-red-600", idSuffix:"valquiria_sem_suporte", checkoutUrl: "https://mpago.li/343Ritx" },
+              { title: "Ficha Dama do Escudo + Suporte", price: "99,90", support: true, icon: Shield, borderColor: "border-red-400/50", shadowColor: "hover:shadow-red-400/50", buttonColor: "bg-red-600 hover:bg-red-700", idSuffix:"valquiria_com_suporte", checkoutUrl: "https://mpago.li/2rAYHEu" },
               { title: "Combo Lendário: Guerreiro Viking + Dama do Escudo", price: "149,85", support: true, icon: Zap, borderColor: "border-yellow-400/70", shadowColor: "hover:shadow-yellow-400/40", buttonColor: "bg-yellow-500 hover:bg-yellow-600", idSuffix:"combo_lendario_com_suporte", checkoutUrl: "https://mpago.li/2XW4YwY" },
             ];
 
