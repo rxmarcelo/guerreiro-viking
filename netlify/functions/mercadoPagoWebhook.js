@@ -69,7 +69,7 @@ exports.handler = async function (event, context) {
       },
     });
     paymentInfo = response.data;
-    console.log("Dados do pagamento:", + paymentInfo)
+    console.log("Dados do pagamento:", paymentInfo);
   } catch (err) { // Mantenha 'err' para o console.error
     console.error("Erro ao consultar pagamento:", err);
     return {
@@ -86,14 +86,60 @@ exports.handler = async function (event, context) {
     };
   }
 
-  // Use optional chaining para segurança e verifique se o e-mail foi obtido
-  const userEmail = paymentInfo.payer?.email;
+  let userEmail = paymentInfo.payer?.email;
+  const customerId = paymentInfo.payer?.id;
 
   if (!userEmail) {
-    console.error(`E-mail do pagador não encontrado no paymentInfo para o Payment ID: ${paymentId}. Detalhes do pagador:`, paymentInfo.payer);
-    return {
-      statusCode: 400, // Ou 500, dependendo se considera isso um erro do cliente ou do sistema
-      body: "E-mail do pagador não encontrado. Não é possível enviar a notificação.",
+    console.log(`E-mail não encontrado diretamente nos dados do pagamento para Payment ID: ${paymentId}. Tentando buscar via Customer ID: ${customerId}`);
+    if (customerId) {
+      try {
+        const customerResponse = await axios.get(`https://api.mercadopago.com/v1/customers/${customerId}`, {
+          headers: {
+            Authorization: `Bearer ${process.env.MERCADO_PAGO_ACCESS_TOKEN}`,
+          },
+        });
+        if (customerResponse.data && customerResponse.data.email) {
+          userEmail = customerResponse.data.email;
+          console.log(`E-mail do pagador obtido via API de Clientes: ${userEmail}`);
+        } else {
+          console.log(`Cliente ${customerId} encontrado, mas sem e-mail registrado.`);
+        }
+      } catch (customerErr) {
+        console.error(`Erro ao buscar dados do cliente ${customerId}:`, customerErr.response ? customerErr.response.data : customerErr.message);
+        // Não retorna erro aqui, pois o fluxo principal continua para notificar o admin se o email ainda estiver faltando
+      }
+    }
+  }
+
+  // Se, mesmo após a tentativa de buscar pelo customerId, o e-mail não for encontrado
+  if (!userEmail) {
+    const adminEmail = process.env.ADMIN_EMAIL;
+    const errorMessage = `ALERTA: E-mail do pagador não pôde ser determinado para o Payment ID: ${paymentId}. Payer ID: ${customerId}. Detalhes do pagamento: ${JSON.stringify(paymentInfo.payer)}. Ação manual necessária.`;
+    console.error(errorMessage);
+
+    if (adminEmail) {
+      try {
+        const transporter = nodemailer.createTransport({ // Reutilize a configuração do transporter abaixo ou defina aqui
+          service: 'gmail',
+          auth: {
+            user: process.env.EMAIL_FROM,
+            pass: process.env.EMAIL_PASS
+          },
+        });
+        await transporter.sendMail({
+          from: `"Alerta Sistema - Guerreiro Viking" <${process.env.EMAIL_FROM}>`,
+          to: adminEmail,
+          subject: `ALERTA URGENTE: E-mail do cliente ausente para Pagamento ${paymentId}`,
+          text: errorMessage,
+        });
+        console.log(`E-mail de alerta sobre e-mail ausente enviado para o administrador: ${adminEmail}`);
+      } catch (emailError) {
+        console.error("Erro ao enviar e-mail de alerta para o administrador:", emailError);
+      }
+    }
+    return { // Responde 200 ao MP para evitar reenvios desnecessários, já que o problema é de dados
+      statusCode: 200,
+      body: "Notificação processada. E-mail do pagador não encontrado, administrador notificado (se configurado).",
     };
   }
 
