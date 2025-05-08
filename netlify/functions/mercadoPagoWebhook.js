@@ -131,13 +131,12 @@ exports.handler = async function (event, context) {
   nomeArquivo = selectedProduct.fileName;
 
   try {
+    // Configuração do Nodemailer para Gmail com Senha de App
     const transporter = nodemailer.createTransport({
-      host: "smtp.office365.com",
-      port: 587,
-      secure: false,
+      service: 'gmail', 
       auth: {
-        user: process.env.EMAIL_FROM,
-        pass: process.env.EMAIL_PASS,
+        user: process.env.EMAIL_FROM, // Seu e-mail do Gmail (ex: seu.email@gmail.com)
+        pass: process.env.EMAIL_PASS  // A Senha de App de 16 caracteres gerada no Google
       },
     });
 
@@ -159,7 +158,7 @@ exports.handler = async function (event, context) {
       statusCode: 200,
       body: "E-mail enviado com sucesso",
     };
-  } catch (err) { // Mantenha 'err' para o console.error
+  } catch (err) {
     console.error("Erro ao enviar e-mail:", err);
     return {
       statusCode: 500,
