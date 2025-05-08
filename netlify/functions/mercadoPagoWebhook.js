@@ -69,6 +69,7 @@ exports.handler = async function (event, context) {
       },
     });
     paymentInfo = response.data;
+    console.log("Dados do pagamento:", + paymentInfo)
   } catch (err) { // Mantenha 'err' para o console.error
     console.error("Erro ao consultar pagamento:", err);
     return {
