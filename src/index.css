@@ -5,42 +5,49 @@
 
 @layer base {
   :root {
-    --background: hsl(222 47% 11%); /* Dark Slate Blue/Gray - Exemplo: Azul Escuro */
-    --foreground: hsl(210 40% 98%); /* Almost White - Exemplo: Quase Branco */
+    /* Estas são as cores do seu tema escuro, agora como padrão */
+    --background: hsl(0 0% 3.9%);
+    --foreground: hsl(0 0% 98%);
 
-    --card: hsl(222 47% 15%); /* Slightly Lighter Dark Slate - Exemplo: Um pouco mais claro que o background */
-    --card-foreground: hsl(210 40% 98%);
+    --card: hsl(0 0% 7%); /* Um pouco mais claro que o background para destaque */
+    --card-foreground: hsl(0 0% 98%);
 
-    --popover: hsl(222 47% 11%);
-    --popover-foreground: hsl(210 40% 98%);
+    --popover: hsl(0 0% 3.9%);
+    --popover-foreground: hsl(0 0% 98%);
 
-    --primary: hsl(35 85% 55%); /* Viking Gold/Orange - Exemplo: Laranja Dourado */
-    --primary-foreground: hsl(35 85% 10%); /* Texto escuro para contraste com primário claro */
+    /* ATENÇÃO: --primary está branco. Se quiser uma cor de destaque (ex: dourado), ajuste aqui. */
+    /* Exemplo para Dourado Viking: --primary: hsl(35 85% 55%); */
+    /* Exemplo para Dourado Viking: --primary-foreground: hsl(35 85% 10%); */
+    --primary: hsl(0 0% 98%); 
+    --primary-foreground: hsl(0 0% 9%); 
 
-    --secondary: hsl(215 30% 34%); /* Muted Blue/Gray - Exemplo: Azul Acinzentado */
-    --secondary-foreground: hsl(210 40% 98%);
+    --secondary: hsl(0 0% 14.9%);
+    --secondary-foreground: hsl(0 0% 98%);
 
-    --muted: hsl(215 30% 25%);
-    --muted-foreground: hsl(215 20% 65%);
+    --muted: hsl(0 0% 14.9%);
+    --muted-foreground: hsl(0 0% 63.9%);
 
-    --accent: hsl(25 95% 60%); /* Exemplo: Laranja mais vibrante para acentos */
-    --accent-foreground: hsl(25 95% 10%);
+    /* ATENÇÃO: --accent está cinza escuro. Considere uma cor de acento mais vibrante. */
+    /* Exemplo para Laranja Vibrante: --accent: hsl(25 95% 60%); */
+    /* Exemplo para Laranja Vibrante: --accent-foreground: hsl(25 95% 10%); */
+    --accent: hsl(0 0% 14.9%); 
+    --accent-foreground: hsl(0 0% 98%);
 
-    --destructive: hsl(0 72% 51%); /* Fiery Red - Exemplo: Vermelho */
+    --destructive: hsl(0 62.8% 30.6%); /* Vermelho mais escuro para tema escuro */
     --destructive-foreground: hsl(0 0% 98%);
 
-    --border: hsl(215 28% 20%); /* Borda mais escura para tema escuro */
-    --input: hsl(215 28% 22%);  /* Input um pouco mais claro que a borda */
-    --ring: hsl(35 85% 55%);    /* Cor do anel de foco (pode ser a primária) */
+    --border: hsl(0 0% 14.9%);
+    --input: hsl(0 0% 14.9%);
+    --ring: hsl(0 0% 83.1%); /* Anel de foco claro para contraste no escuro */
 
     --radius: 0.5rem;
 
-    /* Cores de gráfico (ajuste conforme necessário) */
-    --chart-1: hsl(12 76% 61%);
-    --chart-2: hsl(173 58% 39%);
-    --chart-3: hsl(197 37% 24%);
-    --chart-4: hsl(43 74% 66%);
-    --chart-5: hsl(27 87% 67%);
+    /* Cores de gráfico para o tema escuro (ajuste conforme necessário) */
+    --chart-1: hsl(220 70% 50%);
+    --chart-2: hsl(160 60% 45%);
+    --chart-3: hsl(30 80% 55%);
+    --chart-4: hsl(280 65% 60%);
+    --chart-5: hsl(340 75% 55%);
   }
 
   .dark {
