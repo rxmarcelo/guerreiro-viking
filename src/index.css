@@ -111,6 +111,9 @@
 
 /* Estilo para telas médias (ex: tablets) */
 @media screen and (min-width: 768px) {
+  .bg-image-overlay::before {
+    height: 202%;
+  }
   .hero-overlay-tall.bg-image-overlay::before {
     height: 335%; /* Mantém a altura que estava para telas médias */
   }
