@@ -331,7 +331,7 @@ const VikingLandingPage = () => {
       </section>
 
       <Dialog open={isEmailDialogOpen} onOpenChange={setIsEmailDialogOpen}>
-        <DialogContent className="sm:max-w-[425px] bg-card border-primary">
+        <DialogContent className="sm:max-w-[425px] bg-card border-primary" style={{ border: '5px solid red' /* DEBUGGING BORDER */ }}>
           <DialogHeader>
             <DialogTitle className="text-primary" style={{ fontFamily: "'Cinzel Decorative', serif" }}>Confirmar Compra</DialogTitle>
             <DialogDescription>

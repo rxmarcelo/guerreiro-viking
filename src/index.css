@@ -104,11 +104,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Roboto:wght@400;500;700&display=swap');
 
 .text-shadow-hard {
-  text-shadow: 2px 2px 0px #000, -2px -2px 0px #000, 2px -2px 0px #000, -2px 2px 0px #000, 2px 0px 0px #000, -2px 0px 0px #000, 0px 2px 0px #000, 0px -2px 0px #000;
+  /* Temporariamente suavizado para teste - ajuste conforme necessário */
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.7), 0 0 5px hsl(var(--primary) / 0.5); /* Adiciona um brilho sutil da cor primária */
 }
 
 .text-shadow-soft {
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
 }
 
 .bg-image-overlay::before {
@@ -117,26 +118,15 @@
   top: 0;
   left: 0;
   right: 0;
-  bottom: 0; /* Garante que o overlay preencha 100% da altura do pai por padrão */
-  background-color: rgba(0, 0, 0, 0.5);
+  bottom: 0; 
+  background-color: rgba(0, 0, 0, 0.35); /* Opacidade do overlay reduzida */
   z-index: 0;
-  height: 200%;
+  /* height: 100%;  Removido para que top/left/right/bottom:0 definam o tamanho */
 }
 
 /* Estilo base (mobile-first) para o overlay alto da seção hero */
 .hero-overlay-tall.bg-image-overlay::before {
-  height: 430%; /* Altura para dispositivos móveis */
-  bottom: auto; /* Permite que a 'height' defina a altura a partir do topo */
-}
-
-/* Estilo para telas médias (ex: tablets) */
-@media screen and (min-width: 768px) {
-  .bg-image-overlay::before {
-    height: 202%;
-  }
-  .hero-overlay-tall.bg-image-overlay::before {
-    height: 335%; /* Mantém a altura que estava para telas médias */
-  }
+  /* A altura será 100% do .hero-overlay-tall devido ao bottom:0 acima */
 }
 
 .content-z-index {
