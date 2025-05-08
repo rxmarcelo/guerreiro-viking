@@ -103,6 +103,7 @@ exports.handler = async function (event, context) {
             Authorization: `Bearer ${process.env.MERCADO_PAGO_ACCESS_TOKEN}`,
           },
         });
+        console.log("Dados do cliente:", customerResponse.data)
         // Verifica se o e-mail do cliente existe, é uma string e não está em branco após o trim
         if (customerResponse.data && typeof customerResponse.data.email === 'string' && customerResponse.data.email.trim() !== "") {
           userEmail = customerResponse.data.email;
