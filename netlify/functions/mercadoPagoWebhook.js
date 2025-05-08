@@ -54,26 +54,21 @@ exports.handler = async function (event, context) {
     };
   }
 
-  console.log(data)
+  console.log("Webhook payload recebido:", data) // Log do payload completo
 
-  // A desestruturação original esperava uma estrutura aninhada que não corresponde ao log.
-  // const { action, type, data: { id: paymentId } = {} } = data;
-
-  // Ajustando para a estrutura observada no log: { resource: 'ID_PAGAMENTO', topic: 'payment' }
   const type = data.topic;
-  const paymentId = data.resource;
-  const action = data.action; // 'action' pode não estar presente neste formato de payload.
+  const paymentId = data.resource; // Para topic: 'payment', resource é o payment_id
+  const action = data.action; 
 
-  console.log(`Webhook recebido - Action: ${action || 'N/A'}, Type: ${type}, Payment ID: ${paymentId}`);
+  console.log(`Webhook processando - Action: ${action || 'N/A'}, Type: ${type}, Payment ID: ${paymentId}`);
 
   if (type !== "payment" || !paymentId) {
-    console.log("Notificação ignorada: não é um pagamento ou ID do pagamento ausente.");
+    console.log("Notificação ignorada: não é um 'payment' ou ID do pagamento ausente.");
     return {
       statusCode: 200,
-      body: "Ignored non-payment notification",
+      body: "Ignored: Not a payment notification or missing payment ID.",
     };
   }
-
 
   let paymentInfo;
   try {
@@ -83,12 +78,12 @@ exports.handler = async function (event, context) {
       },
     });
     paymentInfo = response.data;
-    console.log("Dados do pagamento:", paymentInfo);
-  } catch (err) { // Mantenha 'err' para o console.error
-    console.error("Erro ao consultar pagamento:", err);
+    console.log("Dados detalhados do pagamento:", paymentInfo);
+  } catch (err) { 
+    console.error("Erro ao consultar detalhes do pagamento:", err.response ? err.response.data : err.message);
     return {
-      statusCode: 500,
-      body: "Erro ao consultar pagamento",
+      statusCode: 500, // Ou 404 se o erro for específico de pagamento não encontrado
+      body: "Erro ao consultar detalhes do pagamento.",
     };
   }
 
@@ -96,25 +91,37 @@ exports.handler = async function (event, context) {
     console.log(`Pagamento ${paymentId} não aprovado (status: ${paymentInfo.status}). Ignorado.`);
     return {
       statusCode: 200,
-      body: "Pagamento não aprovado, ignorado",
+      body: "Pagamento não aprovado, ignorado.",
     };
   }
 
-  let userEmail; // Irá armazenar o e-mail validado do cliente
-  const payerEmailFromPayment = paymentInfo.payer?.email;
-  const customerId = paymentInfo.payer?.id;
+  let userEmail; 
 
-  if (isValidEmailString(payerEmailFromPayment)) {
-    userEmail = payerEmailFromPayment.trim();
-    console.log(`E-mail do pagador obtido diretamente dos dados do pagamento: ${userEmail}`);
-  } else {
-    if (payerEmailFromPayment) { // Log se estava presente mas era inválido/em branco
-      console.log(`E-mail ('${payerEmailFromPayment}') nos dados do pagamento é inválido ou está em branco. Payment ID: ${paymentId}.`);
+  // 1. Tentar obter do metadata (se você configurou para enviar)
+  const emailFromMetadata = paymentInfo.metadata?.customer_email; 
+  if (isValidEmailString(emailFromMetadata)) {
+    userEmail = emailFromMetadata.trim();
+    console.log(`E-mail do pagador obtido do metadata: ${userEmail}`);
+  }
+
+  // 2. Se não encontrado no metadata, tentar obter dos dados diretos do pagamento
+  if (!userEmail) {
+    const payerEmailFromPayment = paymentInfo.payer?.email;
+    if (isValidEmailString(payerEmailFromPayment)) {
+      userEmail = payerEmailFromPayment.trim();
+      console.log(`E-mail do pagador obtido diretamente dos dados do pagamento: ${userEmail}`);
     } else {
-      console.log(`E-mail não encontrado nos dados do pagamento para Payment ID: ${paymentId}.`);
+      if (payerEmailFromPayment) { 
+        console.log(`E-mail ('${payerEmailFromPayment}') nos dados do pagamento é inválido ou está em branco. Payment ID: ${paymentId}.`);
+      } else {
+        console.log(`E-mail não encontrado nos dados do pagamento para Payment ID: ${paymentId}.`);
+      }
     }
-
-    // Se não foi encontrado ou era inválido, e temos um customerId, tentamos a API de Clientes
+  }
+  
+  // 3. Se ainda não encontrado, e temos um customerId, tentamos a API de Clientes
+  if (!userEmail) {
+    const customerId = paymentInfo.payer?.id;
     if (customerId) {
       console.log(`Tentando buscar e-mail via Customer ID: ${customerId} para Payment ID: ${paymentId}`);
       try {
@@ -129,7 +136,7 @@ exports.handler = async function (event, context) {
         if (isValidEmailString(emailFromCustomerApi)) {
           userEmail = emailFromCustomerApi.trim();
           console.log(`E-mail do pagador obtido via API de Clientes: ${userEmail}`);
-        } else if (emailFromCustomerApi) { // Se o campo email existe mas é inválido/em branco
+        } else if (emailFromCustomerApi) { 
           console.log(`Cliente ${customerId} encontrado, mas o e-mail registrado ('${emailFromCustomerApi}') é inválido ou está em branco.`);
         } else {
           console.log(`Cliente ${customerId} encontrado, mas sem e-mail registrado ou campo de e-mail ausente nos dados do cliente.`);
@@ -143,13 +150,14 @@ exports.handler = async function (event, context) {
   // Se, após todas as tentativas, nenhum e-mail válido foi encontrado
   if (!userEmail) {
     const adminEmail = process.env.ADMIN_EMAIL;
-    const errorMessage = `ALERTA: E-mail do pagador não pôde ser determinado para o Payment ID: ${paymentId}. Payer ID: ${customerId}. Detalhes do pagamento: ${JSON.stringify(paymentInfo.payer)}. Ação manual necessária.`;
+    const customerId = paymentInfo.payer?.id; // Para incluir no log de erro
+    const errorMessage = `ALERTA: E-mail do pagador não pôde ser determinado para o Payment ID: ${paymentId}. Payer ID: ${customerId || 'N/A'}. Detalhes do pagamento (payer): ${JSON.stringify(paymentInfo.payer)}. Metadata: ${JSON.stringify(paymentInfo.metadata)}. Ação manual necessária.`;
     console.error(errorMessage);
     console.log(`[DEBUG Admin Email] Valor de process.env.ADMIN_EMAIL: '${adminEmail}'`);
 
-    if (adminEmail) {
+    if (adminEmail && isValidEmailString(adminEmail)) { // Verifica se adminEmail é válido também
       try {
-        const transporter = nodemailer.createTransport({ // Reutilize a configuração do transporter abaixo ou defina aqui
+        const transporter = nodemailer.createTransport({ 
           service: 'gmail',
           auth: {
             user: process.env.EMAIL_FROM,
@@ -167,64 +175,62 @@ exports.handler = async function (event, context) {
         console.error("Erro ao enviar e-mail de alerta para o administrador:", emailError);
       }
     } else {
-      console.log("[DEBUG Admin Email] adminEmail é Falsy (undefined, null, ou string vazia). Pulando envio de e-mail de alerta.");
+      console.log("[DEBUG Admin Email] adminEmail é Falsy, inválido, ou não configurado. Pulando envio de e-mail de alerta.");
     }
-    return { // Responde 200 ao MP para evitar reenvios desnecessários, já que o problema é de dados
+    return { 
       statusCode: 200,
-      body: "Notificação processada. E-mail do pagador não encontrado, administrador notificado (se configurado).",
+      body: "Notificação processada. E-mail do pagador não encontrado, administrador notificado (se configurado e válido).",
     };
   }
 
-  // Configuração dos produtos
   const productConfigurations = [
-    {
-      id: "GUERREIRO_VIKING",
-      keywords: ["guerreiro", "viking"],
-      pdf: "guerreiro-viking.pdf",
-      fileName: "guerreiro-viking.pdf",
-    },
-    {
-      id: "DAMA_DO_ESCUDO",
-      keywords: ["dama", "escudo"],
-      pdf: "dama-do-escudo.pdf",
-      fileName: "dama-do-escudo.pdf",
-    },
-    {
-      id: "COMBO_TREINOS",
-      keywords: ["combo"],
-      pdf: "combo.pdf",
-      fileName: "combo.pdf",
-    },
+    { id: "guerreiro_sem_suporte", pdf: "guerreiro-viking.pdf", fileName: "guerreiro-viking.pdf" },
+    { id: "guerreiro_com_suporte", pdf: "guerreiro-viking.pdf", fileName: "guerreiro-viking.pdf" },
+    { id: "valquiria_sem_suporte", pdf: "dama-do-escudo.pdf", fileName: "dama-do-escudo.pdf" },
+    { id: "valquiria_com_suporte", pdf: "dama-do-escudo.pdf", fileName: "dama-do-escudo.pdf" },
+    { id: "combo_lendario_com_suporte", pdf: "combo.pdf", fileName: "combo.pdf" },
   ];
 
-  // Detecta o produto comprado
-  const itemTitle = paymentInfo.additional_info?.items?.[0]?.title?.toLowerCase() || "";
-  // const itemId = paymentInfo.additional_info?.items?.[0]?.id; // Considere usar o ID do item (SKU) se disponível e confiável
-
-  let arquivoPdf;
-  let nomeArquivo;
-
-  const selectedProduct = productConfigurations.find(product =>
-    product.keywords.some(keyword => itemTitle.includes(keyword))
-  );
+  const productIdFromMetadata = paymentInfo.metadata?.product_id_original;
+  let selectedProduct = productConfigurations.find(p => p.id === productIdFromMetadata);
 
   if (!selectedProduct) {
-    console.warn(`Produto não reconhecido pelo título: "${itemTitle}". Payment ID: ${paymentId}`);
+    // Fallback para detecção por título se o ID do metadata não funcionar
+    const itemTitle = paymentInfo.additional_info?.items?.[0]?.title?.toLowerCase() || "";
+    const fallbackKeywords = [
+        { id: "guerreiro_sem_suporte", keywords: ["guerreiro viking"] }, // Mais específico
+        { id: "guerreiro_com_suporte", keywords: ["guerreiro viking + suporte"] },
+        { id: "valquiria_sem_suporte", keywords: ["dama do escudo"] },
+        { id: "valquiria_com_suporte", keywords: ["dama do escudo + suporte"] },
+        { id: "combo_lendario_com_suporte", keywords: ["combo lendário"] },
+    ];
+    const foundByKeyword = fallbackKeywords.find(product =>
+        product.keywords.some(keyword => itemTitle.includes(keyword))
+    );
+    if (foundByKeyword) {
+        selectedProduct = productConfigurations.find(p => p.id === foundByKeyword.id);
+    }
+  }
+
+  if (!selectedProduct) {
+    console.warn(`Produto não reconhecido. Metadata Product ID: "${productIdFromMetadata}", Título do Item: "${paymentInfo.additional_info?.items?.[0]?.title || 'N/A'}". Payment ID: ${paymentId}`);
+    // Notificar admin sobre produto não reconhecido
+    // ... (lógica similar à de e-mail ausente)
     return {
-      statusCode: 400,
-      body: "Produto não reconhecido",
+      statusCode: 400, // Ou 200 se preferir apenas logar e não reenviar
+      body: "Produto não reconhecido.",
     };
   }
-  arquivoPdf = path.join(__dirname, "src", "documentos", selectedProduct.pdf);
-  nomeArquivo = selectedProduct.fileName;
+
+  const arquivoPdf = path.join(__dirname, "src", "documentos", selectedProduct.pdf);
+  const nomeArquivo = selectedProduct.fileName;
 
   try {
-    // Configuração do Nodemailer para Gmail com Senha de App
     const transporter = nodemailer.createTransport({
       service: 'gmail', 
       auth: {
-        user: process.env.EMAIL_FROM, // Seu e-mail do Gmail (ex: seu.email@gmail.com)
-        pass: process.env.EMAIL_PASS  // A Senha de App de 16 caracteres gerada no Google
+        user: process.env.EMAIL_FROM, 
+        pass: process.env.EMAIL_PASS  
       },
     });
 
@@ -244,13 +250,13 @@ exports.handler = async function (event, context) {
     console.log(`E-mail enviado com sucesso para ${userEmail} para o produto ${selectedProduct.id} (Payment ID: ${paymentId}).`);
     return {
       statusCode: 200,
-      body: "E-mail enviado com sucesso",
+      body: "E-mail enviado com sucesso.",
     };
   } catch (err) {
-    console.error("Erro ao enviar e-mail:", err);
+    console.error("Erro ao enviar e-mail para o cliente:", err);
     return {
       statusCode: 500,
-      body: "Erro ao enviar o e-mail",
+      body: "Erro ao enviar o e-mail para o cliente.",
     };
   }
 };

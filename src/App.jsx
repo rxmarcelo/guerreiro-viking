@@ -1,9 +1,11 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Axe, Shield, Instagram, MessageSquare, Zap, Heart } from 'lucide-react';
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'; // Adicionado Dialog
+import { Input } from '@/components/ui/input'; // Adicionado Input
 import { Toaster } from '@/components/ui/toaster';
 import { useToast } from '@/components/ui/use-toast';
 
@@ -13,15 +15,81 @@ import logoGuerreiroViking from './img/valhalla2.png'; // Ajuste o nome do arqui
 
 const VikingLandingPage = () => {
   const { toast } = useToast();
+  const [isEmailDialogOpen, setIsEmailDialogOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [customerEmail, setCustomerEmail] = useState('');
+  const [isRedirecting, setIsRedirecting] = useState(false);
 
-  const handleBuyClick = (productName, checkoutUrl) => {
+  const openEmailDialog = (product) => {
+    setSelectedProduct(product);
+    setCustomerEmail(''); // Limpa o e-mail anterior
+    setIsEmailDialogOpen(true);
+  };
+
+  const handleProceedToPayment = async () => {
+    if (!selectedProduct || !customerEmail) {
+      toast({
+        title: "Erro",
+        description: "Por favor, insira um e-mail válido.",
+        variant: "destructive",
+        duration: 3000,
+      });
+      return;
+    }
+
+    // Validação básica de e-mail no frontend
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(customerEmail)) {
+      toast({
+        title: "E-mail Inválido",
+        description: "Por favor, insira um endereço de e-mail válido.",
+        variant: "destructive",
+        duration: 3000,
+      });
+      return;
+    }
+
+    setIsRedirecting(true);
     toast({
       title: "Redirecionando...",
-      description: `Você será redirecionado para o Mercado Pago para comprar ${productName}.`,
+      description: `Você será redirecionado para o Mercado Pago para comprar ${selectedProduct.title}.`,
       duration: 3000,
     });
-    console.log(`Comprar ${productName} - Redirecionar para: ${checkoutUrl}`);
-    window.open(checkoutUrl, '_blank');
+
+    try {
+      // PASSO CRUCIAL: Chamar sua nova função Netlify para criar a preferência
+      const response = await fetch('/.netlify/functions/create-mercadopago-preference', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          productId: selectedProduct.idSuffix, // Envia um identificador do produto
+          productTitle: selectedProduct.title,
+          productPrice: parseFloat(selectedProduct.price.replace(',', '.')),
+          customerEmail: customerEmail 
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Falha ao criar preferência de pagamento.');
+      }
+
+      const { init_point } = await response.json(); // A função backend retorna o init_point
+      
+      setIsEmailDialogOpen(false); // Fecha o diálogo
+      window.open(init_point, '_blank'); // Redireciona para o link do Mercado Pago
+
+    } catch (error) {
+      console.error("Erro ao criar preferência de pagamento:", error);
+      toast({
+        title: "Erro no Pagamento",
+        description: error.message || "Não foi possível iniciar o pagamento. Tente novamente.",
+        variant: "destructive",
+        duration: 5000,
+      });
+    } finally {
+      setIsRedirecting(false);
+    }
   };
 
   const backgroundImage1 = "https://storage.googleapis.com/hostinger-horizons-assets-prod/f9552480-90c3-4198-9467-b312fd76a586/c40faa7c51cc2d7b54f6228aa1a73e4e.jpg";
@@ -241,7 +309,7 @@ const VikingLandingPage = () => {
                     )}
                   </CardContent>
                   <CardFooter className="flex justify-center mt-auto">
-                    <Button variant={plan.support ? "secondary" : "primary"} size="lg" className={`w-full ${plan.buttonColor} text-primary-foreground font-semibold`} onClick={() => handleBuyClick(plan.title, plan.checkoutUrl)}>
+                    <Button variant={plan.support ? "secondary" : "primary"} size="lg" className={`w-full ${plan.buttonColor} text-primary-foreground font-semibold`} onClick={() => openEmailDialog(plan)}>
                       Comprar
                     </Button>
                   </CardFooter>
@@ -261,6 +329,39 @@ const VikingLandingPage = () => {
           </motion.p>
         </div>
       </section>
+
+      <Dialog open={isEmailDialogOpen} onOpenChange={setIsEmailDialogOpen}>
+        <DialogContent className="sm:max-w-[425px] bg-card border-primary">
+          <DialogHeader>
+            <DialogTitle className="text-primary" style={{ fontFamily: "'Cinzel Decorative', serif" }}>Confirmar Compra</DialogTitle>
+            <DialogDescription>
+              Para prosseguir com a compra de "{selectedProduct?.title}", por favor, informe seu melhor e-mail.
+              A ficha de treino será enviada para este endereço após a aprovação do pagamento.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid grid-cols-4 items-center gap-4">
+              <label htmlFor="email" className="text-right col-span-1">
+                E-mail
+              </label>
+              <Input 
+                id="email" 
+                type="email"
+                value={customerEmail}
+                onChange={(e) => setCustomerEmail(e.target.value)}
+                className="col-span-3" 
+                placeholder="seu.email@exemplo.com"
+              />
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsEmailDialogOpen(false)} disabled={isRedirecting}>Cancelar</Button>
+            <Button type="submit" onClick={handleProceedToPayment} className="bg-primary hover:bg-yellow-600" disabled={isRedirecting}>
+              {isRedirecting ? "Processando..." : "Ir para Pagamento"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       <footer className="bg-gray-900/70 py-10 border-t border-gray-700">
         <div className="container mx-auto px-6 text-center text-gray-400">
