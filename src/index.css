@@ -5,44 +5,40 @@
 
 @layer base {
   :root {
-    /* Estas são as cores do seu tema escuro, agora como padrão */
-    --background: hsl(0 0% 3.9%);
+    /* Tema Escuro Padrão com Dourado Viking */
+    --background: hsl(220 25% 12%); /* Cinza-azulado bem escuro, mas não preto puro */
     --foreground: hsl(0 0% 98%);
 
-    --card: hsl(0 0% 7%); /* Um pouco mais claro que o background para destaque */
+    --card: hsl(220 25% 18%); /* Um pouco mais claro que o background para destaque */
     --card-foreground: hsl(0 0% 98%);
 
-    --popover: hsl(0 0% 3.9%);
+    --popover: hsl(220 25% 12%);
     --popover-foreground: hsl(0 0% 98%);
 
-    /* ATENÇÃO: --primary está branco. Se quiser uma cor de destaque (ex: dourado), ajuste aqui. */
-    /* Exemplo para Dourado Viking: --primary: hsl(35 85% 55%); */
-    /* Exemplo para Dourado Viking: --primary-foreground: hsl(35 85% 10%); */
-    --primary: hsl(0 0% 98%); 
-    --primary-foreground: hsl(0 0% 9%); 
+    /* Cor Primária: Dourado Viking */
+    --primary: hsl(35 85% 55%); 
+    --primary-foreground: hsl(35 85% 10%); /* Texto escuro para bom contraste em fundo dourado */
 
-    --secondary: hsl(0 0% 14.9%);
+    --secondary: hsl(220 15% 30%); /* Um cinza-azulado mais claro para secundário */
     --secondary-foreground: hsl(0 0% 98%);
 
-    --muted: hsl(0 0% 14.9%);
+    --muted: hsl(220 15% 25%);
     --muted-foreground: hsl(0 0% 63.9%);
 
-    /* ATENÇÃO: --accent está cinza escuro. Considere uma cor de acento mais vibrante. */
-    /* Exemplo para Laranja Vibrante: --accent: hsl(25 95% 60%); */
-    /* Exemplo para Laranja Vibrante: --accent-foreground: hsl(25 95% 10%); */
-    --accent: hsl(0 0% 14.9%); 
-    --accent-foreground: hsl(0 0% 98%);
+    /* Cor de Acento: Laranja Queimado (complementar ao dourado) */
+    --accent: hsl(25 90% 50%); 
+    --accent-foreground: hsl(25 90% 10%); /* Texto escuro para bom contraste */
 
     --destructive: hsl(0 62.8% 30.6%); /* Vermelho mais escuro para tema escuro */
     --destructive-foreground: hsl(0 0% 98%);
 
-    --border: hsl(0 0% 14.9%);
-    --input: hsl(0 0% 14.9%);
-    --ring: hsl(0 0% 83.1%); /* Anel de foco claro para contraste no escuro */
+    --border: hsl(35 70% 45%); /* Borda em tom dourado mais escuro, ou use var(--primary) */
+    --input: hsl(220 25% 22%); /* Cor de input para tema escuro */
+    --ring: hsl(35 85% 60%); /* Anel de foco em tom dourado, ou use var(--primary) */
 
     --radius: 0.5rem;
 
-    /* Cores de gráfico para o tema escuro (ajuste conforme necessário) */
+    /* Cores de gráfico (ajuste conforme necessário para o seu tema) */
     --chart-1: hsl(220 70% 50%);
     --chart-2: hsl(160 60% 45%);
     --chart-3: hsl(30 80% 55%);
@@ -51,37 +47,38 @@
   }
 
   .dark {
-    /* No seu tema escuro, os valores já parecem estar mais alinhados com os nomes,
-       mas garanta que estão usando hsl() */
-    --background: hsl(0 0% 3.9%);
+    /* O bloco .dark pode ser usado para um tema claro, ou um tema escuro alternativo. */
+    /* Por enquanto, vamos mantê-lo igual ao :root para consistência, já que :root é o seu tema escuro padrão. */
+    /* Se você quiser um tema claro quando a classe .dark NÃO estiver presente, inverta a lógica:
+       coloque as cores claras no :root e as escuras aqui no .dark */
+    --background: hsl(220 25% 12%);
     --foreground: hsl(0 0% 98%);
 
-    --card: hsl(0 0% 3.9%); /* Pode querer um pouco mais claro que o background, ex: hsl(0 0% 7%) */
+    --card: hsl(220 25% 18%);
     --card-foreground: hsl(0 0% 98%);
 
-    --popover: hsl(0 0% 3.9%);
+    --popover: hsl(220 25% 12%);
     --popover-foreground: hsl(0 0% 98%);
 
-    --primary: hsl(0 0% 98%); /* Branco para primário no tema escuro */
-    --primary-foreground: hsl(0 0% 9%); /* Texto escuro para contraste */
+    --primary: hsl(35 85% 55%); 
+    --primary-foreground: hsl(35 85% 10%); 
 
-    --secondary: hsl(0 0% 14.9%);
+    --secondary: hsl(220 15% 30%);
     --secondary-foreground: hsl(0 0% 98%);
 
-    --muted: hsl(0 0% 14.9%);
+    --muted: hsl(220 15% 25%);
     --muted-foreground: hsl(0 0% 63.9%);
 
-    --accent: hsl(0 0% 14.9%); /* Pode querer uma cor de acento diferente para o tema escuro */
-    --accent-foreground: hsl(0 0% 98%);
+    --accent: hsl(25 90% 50%); 
+    --accent-foreground: hsl(25 90% 10%);
 
     --destructive: hsl(0 62.8% 30.6%);
     --destructive-foreground: hsl(0 0% 98%);
 
-    --border: hsl(0 0% 14.9%);
-    --input: hsl(0 0% 14.9%);
-    --ring: hsl(0 0% 83.1%);
+    --border: hsl(35 70% 45%);
+    --input: hsl(220 25% 22%);
+    --ring: hsl(35 85% 60%);
 
-    /* Cores de gráfico para o tema escuro (ajuste conforme necessário) */
     --chart-1: hsl(220 70% 50%);
     --chart-2: hsl(160 60% 45%);
     --chart-3: hsl(30 80% 55%);
