@@ -7,37 +7,38 @@
 
 @layer base {
   :root {
-    /* Tema Escuro Padrão com Dourado Viking */
-    --background: hsl(0 0% 3.9%);
-    --foreground: hsl(0 0% 98%);
+    /* Tema Escuro Padrão (movido do seu bloco .dark original) */
+    --background: hsl(0 0% 3.9%); /* Preto/Cinza Escuro */
+    --foreground: hsl(0 0% 98%); /* Quase Branco */
 
-    --card: hsl(0 0% 7%); /* Um pouco mais claro que o background para cards */
-    --card-foreground: hsl(0 0% 98%);
+    --card: hsl(0 0% 7%); /* Cinza um pouco mais claro para cards */
+    --card-foreground: hsl(0 0% 98%); /* Quase Branco */
 
-    --popover: hsl(0 0% 3.9%);
-    --popover-foreground: hsl(0 0% 98%);
+    --popover: hsl(0 0% 3.9%); /* Preto/Cinza Escuro */
+    --popover-foreground: hsl(0 0% 98%); /* Quase Branco */
 
-    --primary: hsl(45 90% 55%);  /* DOURADO VIKING */
-    --primary-foreground: hsl(45 90% 10%); /* Texto escuro para contraste no dourado */
+    --primary: hsl(45 90% 55%);  /* DOURADO VIKING VIBRANTE */
+    --primary-foreground: hsl(45 90% 10%); /* Marrom escuro para contraste no dourado */
 
-    --secondary: hsl(0 0% 14.9%);
-    --secondary-foreground: hsl(0 0% 98%);
+    --secondary: hsl(0 0% 14.9%); /* Cinza Médio Escuro */
+    --secondary-foreground: hsl(0 0% 98%); /* Quase Branco */
 
-    --muted: hsl(0 0% 14.9%);
-    --muted-foreground: hsl(0 0% 63.9%);
+    --muted: hsl(0 0% 14.9%); /* Cinza Médio Escuro */
+    --muted-foreground: hsl(0 0% 63.9%); /* Cinza Claro */
 
-    --accent: hsl(30 80% 55%); /* Laranja/Acento */
-    --accent-foreground: hsl(30 80% 10%);
+    --accent: hsl(30 80% 55%); /* Laranja/Acento Vibrante */
+    --accent-foreground: hsl(30 80% 10%); /* Marrom escuro para contraste */
 
-    --destructive: hsl(0 62.8% 30.6%);
-    --destructive-foreground: hsl(0 0% 98%);
+    --destructive: hsl(0 62.8% 30.6%); /* Vermelho Escuro */
+    --destructive-foreground: hsl(0 0% 98%); /* Quase Branco */
 
-    --border: hsl(var(--primary) / 0.6); /* Borda dourada com opacidade ou tom mais escuro */
-    --input: hsl(0 0% 14.9%);
+    --border: hsl(var(--primary) / 0.7); /* Borda dourada (com opacidade ou tom mais escuro) */
+    --input: hsl(0 0% 14.9%); /* Cinza Médio Escuro */
     --ring: hsl(var(--primary)); /* Anel de foco dourado */
 
     --radius: 0.5rem;
 
+    /* Cores de gráfico para tema escuro (ajuste conforme necessário) */
     --chart-1: hsl(220 70% 50%);
     --chart-2: hsl(160 60% 45%);
     --chart-3: hsl(30 80% 55%);
@@ -46,36 +47,36 @@
   }
 
   .dark {
-    /* Tema Claro (se a classe .dark for usada para ativar o tema claro) */
-    --background: hsl(0 0% 100%); 
-    --foreground: hsl(0 0% 3.9%); 
+    /* Tema Claro (movido do seu :root original) */
+    --background: hsl(0 0% 100%); /* Branco */
+    --foreground: hsl(0 0% 3.9%); /* Preto/Cinza Escuro */
 
-    --card: hsl(0 0% 100%); 
-    --card-foreground: hsl(0 0% 3.9%);
+    --card: hsl(0 0% 100%); /* Branco */
+    --card-foreground: hsl(0 0% 3.9%); /* Preto/Cinza Escuro */
 
-    --popover: hsl(0 0% 100%);
-    --popover-foreground: hsl(0 0% 3.9%);
+    --popover: hsl(0 0% 100%); /* Branco */
+    --popover-foreground: hsl(0 0% 3.9%); /* Preto/Cinza Escuro */
 
-    --primary: hsl(45 90% 50%); /* Dourado também no tema claro, ajuste se necessário */
-    --primary-foreground: hsl(45 90% 10%);
+    --primary: hsl(45 90% 55%); /* Dourado (pode ajustar para o tema claro se quiser outra cor) */
+    --primary-foreground: hsl(45 90% 10%); /* Marrom escuro */
 
-    --secondary: hsl(0 0% 96.1%); 
-    --secondary-foreground: hsl(0 0% 9%);
+    --secondary: hsl(0 0% 96.1%); /* Cinza Muito Claro */
+    --secondary-foreground: hsl(0 0% 9%); /* Preto/Cinza Escuro */
 
-    --muted: hsl(0 0% 96.1%);
-    --muted-foreground: hsl(0 0% 45.1%);
+    --muted: hsl(0 0% 96.1%); /* Cinza Muito Claro */
+    --muted-foreground: hsl(0 0% 45.1%); /* Cinza Médio */
 
-    --accent: hsl(30 80% 50%); /* Laranja/Acento no tema claro */
-    --accent-foreground: hsl(30 80% 10%);
+    --accent: hsl(30 80% 55%); /* Laranja/Acento */
+    --accent-foreground: hsl(30 80% 10%); /* Marrom escuro */
 
-    --destructive: hsl(0 84.2% 60.2%); 
-    --destructive-foreground: hsl(0 0% 98%);
+    --destructive: hsl(0 84.2% 60.2%); /* Vermelho Vibrante */
+    --destructive-foreground: hsl(0 0% 98%); /* Quase Branco */
 
-    --border: hsl(0 0% 89.8%);
-    --input: hsl(0 0% 89.8%);
-    --ring: hsl(0 0% 3.9%);
+    --border: hsl(0 0% 89.8%); /* Cinza Claro */
+    --input: hsl(0 0% 89.8%); /* Cinza Claro */
+    --ring: hsl(0 0% 3.9%); /* Preto/Cinza Escuro */
     /* Cores de gráfico para tema claro, se necessário */
-    /* --chart-1: hsl(12 76% 61%); ... etc ... */
+    /* --chart-1: hsl(12 76% 61%); ... */
   }
   
   /* Estilos base globais */
