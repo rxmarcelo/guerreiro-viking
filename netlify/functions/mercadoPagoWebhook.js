@@ -87,12 +87,12 @@ exports.handler = async function (event, context) {
     };
   }
 
-  // Alterado para processar pagamentos com status 'pending' para fins de teste
-  if (paymentInfo.status !== "pending") {
-    console.log(`Pagamento ${paymentId} não está com status 'pending' (status atual: ${paymentInfo.status}). Ignorado para este teste.`);
+  // Revertido para processar SOMENTE pagamentos com status 'approved'
+  if (paymentInfo.status !== "approved") {
+    console.log(`Pagamento ${paymentId} não está com status 'approved' (status atual: ${paymentInfo.status}). Ignorado.`);
     return {
       statusCode: 200,
-      body: "Pagamento não está pendente, ignorado para este teste.",
+      body: "Pagamento não aprovado, ignorado.",
     };
   }
 
