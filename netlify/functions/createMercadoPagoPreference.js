@@ -1,5 +1,5 @@
 // netlify/functions/create-mercadopago-preference.js
-const mercadopago = require('mercadopago');
+const { MercadoPagoConfig, Preference } = require('mercadopago');
 
 exports.handler = async (event, context) => {
   if (event.httpMethod !== 'POST') {
@@ -13,11 +13,12 @@ exports.handler = async (event, context) => {
       return { statusCode: 400, body: JSON.stringify({ error: 'Dados incompletos.' }) };
     }
 
-    mercadopago.configure({
-      access_token: process.env.MERCADO_PAGO_ACCESS_TOKEN, // Use seu Access Token de PRODUÇÃO ou TESTE
+    // Inicializa o cliente do Mercado Pago com o Access Token
+    const client = new MercadoPagoConfig({ 
+      accessToken: process.env.MERCADO_PAGO_ACCESS_TOKEN 
     });
 
-    const preference = {
+    const preferenceData = {
       items: [
         {
           id: productId,
@@ -33,20 +34,21 @@ exports.handler = async (event, context) => {
         customer_email: customerEmail,
         product_id_original: productId, // Para referência no webhook
       },
-      back_urls: {
-        success: 'https://SEU_SITE.com/sucesso', // Configure suas URLs de retorno
-        failure: 'https://SEU_SITE.com/falha',
-        pending: 'https://SEU_SITE.com/pendente',
-      },
+      // back_urls: { // Removido - ATENÇÃO: Isso pode impactar a experiência do usuário após o pagamento.
+      //   success: 'https://SEU_SITE.com/sucesso', 
+      //   failure: 'https://SEU_SITE.com/falha',
+      //   pending: 'https://SEU_SITE.com/pendente',
+      // },
       auto_return: 'approved',
       // notification_url: 'https://SEU_SITE.com/.netlify/functions/mercadoPagoWebhook', // Se não configurado globalmente no MP
     };
 
-    const response = await mercadopago.preferences.create(preference);
+    const preferenceClient = new Preference(client);
+    const result = await preferenceClient.create({ body: preferenceData });
     
     return {
       statusCode: 200,
-      body: JSON.stringify({ init_point: response.body.init_point }),
+      body: JSON.stringify({ init_point: result.init_point }),
     };
 
   } catch (error) {
