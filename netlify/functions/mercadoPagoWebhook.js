@@ -223,7 +223,9 @@ exports.handler = async function (event, context) {
     };
   }
 
-  const arquivoPdf = path.join(__dirname, "src", "documentos", selectedProduct.pdf);
+  // __dirname é /var/task/netlify/functions/
+  // Os arquivos incluídos via netlify.toml (src/doc/**) estarão em /var/task/src/doc/
+  const arquivoPdf = path.join(__dirname, "..", "..", "src", "doc", selectedProduct.pdf);
   const nomeArquivo = selectedProduct.fileName;
 
   try {

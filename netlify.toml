@@ -2,7 +2,7 @@
   functions = "netlify/functions"
 
 [functions]
-  included_files = ["src/documentos/**"]
+  included_files = ["src/doc/**"]
 
 [[redirects]]
   from = "/*"
