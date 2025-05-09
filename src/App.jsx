@@ -58,7 +58,7 @@ const VikingLandingPage = () => {
 
     try {
       // PASSO CRUCIAL: Chamar sua nova função Netlify para criar a preferência
-      const response = await fetch('/.netlify/functions/create-mercadopago-preference', {
+      const response = await fetch('/.netlify/functions/createMercadoPagoPreference', { // Corrigido para camelCase
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
