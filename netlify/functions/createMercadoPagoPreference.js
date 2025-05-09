@@ -34,13 +34,13 @@ exports.handler = async (event, context) => {
         customer_email: customerEmail,
         product_id_original: productId, // Para referência no webhook
       },
-      // back_urls: { // Removido - ATENÇÃO: Isso pode impactar a experiência do usuário após o pagamento.
-      //   success: 'https://SEU_SITE.com/sucesso', 
-      //   failure: 'https://SEU_SITE.com/falha',
-      //   pending: 'https://SEU_SITE.com/pendente',
-      // },
+      back_urls: { 
+        success: 'https://guerreiro-viking.netlify.app/status-pagamento?status=sucesso', 
+        failure: 'https://guerreiro-viking.netlify.app/status-pagamento?status=falha',
+        pending: 'https://guerreiro-viking.netlify.app/status-pagamento?status=pendente',
+      },
       auto_return: 'approved',
-      // notification_url: 'https://SEU_SITE.com/.netlify/functions/mercadoPagoWebhook', // Se não configurado globalmente no MP
+      notification_url: `https://guerreiro-viking.netlify.app/.netlify/functions/mercadoPagoWebhook`,
     };
 
     const preferenceClient = new Preference(client);

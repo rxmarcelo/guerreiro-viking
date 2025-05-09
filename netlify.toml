@@ -3,3 +3,8 @@
 
 [functions]
   included_files = ["src/documentos/**"]
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
