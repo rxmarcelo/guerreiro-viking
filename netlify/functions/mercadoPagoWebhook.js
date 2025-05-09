@@ -185,11 +185,29 @@ exports.handler = async function (event, context) {
   }
 
   const productConfigurations = [
-    { id: "guerreiro_sem_suporte", pdf: "guerreiro-viking.pdf", fileName: "guerreiro-viking.pdf" },
-    { id: "guerreiro_com_suporte", pdf: "guerreiro-viking.pdf", fileName: "guerreiro-viking.pdf" },
-    { id: "valquiria_sem_suporte", pdf: "dama-do-escudo.pdf", fileName: "dama-do-escudo.pdf" },
-    { id: "valquiria_com_suporte", pdf: "dama-do-escudo.pdf", fileName: "dama-do-escudo.pdf" },
-    { id: "combo_lendario_com_suporte", pdf: "combo.pdf", fileName: "combo.pdf" },
+    {
+      id: "guerreiro_sem_suporte",
+      attachments: [{ pdfFile: "guerreiro-viking.pdf", displayName: "guerreiro-viking.pdf" }]
+    },
+    {
+      id: "guerreiro_com_suporte",
+      attachments: [{ pdfFile: "guerreiro-viking.pdf", displayName: "guerreiro-viking.pdf" }]
+    },
+    {
+      id: "dama_escudo_sem_suporte",
+      attachments: [{ pdfFile: "dama-do-escudo.pdf", displayName: "dama-do-escudo.pdf" }]
+    },
+    {
+      id: "dama_escudo_com_suporte",
+      attachments: [{ pdfFile: "dama-do-escudo.pdf", displayName: "dama-do-escudo.pdf" }]
+    },
+    {
+      id: "combo_lendario_com_suporte",
+      attachments: [
+        { pdfFile: "guerreiro-viking.pdf", displayName: "guerreiro-viking.pdf" },
+        { pdfFile: "dama-do-escudo.pdf", displayName: "dama-do-escudo.pdf" }
+      ]
+    },
   ];
 
   const productIdFromMetadata = paymentInfo.metadata?.product_id_original;
@@ -201,8 +219,8 @@ exports.handler = async function (event, context) {
     const fallbackKeywords = [
         { id: "guerreiro_sem_suporte", keywords: ["guerreiro viking"] }, // Mais específico
         { id: "guerreiro_com_suporte", keywords: ["guerreiro viking + suporte"] },
-        { id: "valquiria_sem_suporte", keywords: ["dama do escudo"] },
-        { id: "valquiria_com_suporte", keywords: ["dama do escudo + suporte"] },
+        { id: "dama_escudo_sem_suporte", keywords: ["dama do escudo"] },
+        { id: "dama_escudo_com_suporte", keywords: ["dama do escudo + suporte"] },
         { id: "combo_lendario_com_suporte", keywords: ["combo lendário"] },
     ];
     const foundByKeyword = fallbackKeywords.find(product =>
@@ -215,18 +233,11 @@ exports.handler = async function (event, context) {
 
   if (!selectedProduct) {
     console.warn(`Produto não reconhecido. Metadata Product ID: "${productIdFromMetadata}", Título do Item: "${paymentInfo.additional_info?.items?.[0]?.title || 'N/A'}". Payment ID: ${paymentId}`);
-    // Notificar admin sobre produto não reconhecido
-    // ... (lógica similar à de e-mail ausente)
     return {
-      statusCode: 400, // Ou 200 se preferir apenas logar e não reenviar
+      statusCode: 400,
       body: "Produto não reconhecido.",
     };
   }
-
-  // __dirname é /var/task/netlify/functions/
-  // Os arquivos incluídos via netlify.toml (src/doc/**) estarão em /var/task/src/doc/
-  const arquivoPdf = path.join(__dirname, "..", "..", "src", "doc", selectedProduct.pdf);
-  const nomeArquivo = selectedProduct.fileName;
 
   try {
     const transporter = nodemailer.createTransport({
@@ -237,17 +248,17 @@ exports.handler = async function (event, context) {
       },
     });
 
+    const mailAttachments = selectedProduct.attachments.map(att => ({
+      filename: att.displayName,
+      path: path.join(__dirname, "..", "..", "src", "doc", att.pdfFile),
+    }));
+
     await transporter.sendMail({
       from: `"Rafael Cardoso - Ficha de treino de Valhalla" <${process.env.EMAIL_FROM}>`,
       to: userEmail,
       subject: "Aqui está sua ficha de treino, direto de Valhalla!",
       text: "Obrigado pela compra! Segue em anexo o seu treinamento digno de um(a) verdadeiro(a) guerreiro(a). Bom treino!",
-      attachments: [
-        {
-          filename: nomeArquivo,
-          path: arquivoPdf,
-        },
-      ],
+      attachments: mailAttachments,
     });
 
     console.log(`E-mail enviado com sucesso para ${userEmail} para o produto ${selectedProduct.id} (Payment ID: ${paymentId}).`);
