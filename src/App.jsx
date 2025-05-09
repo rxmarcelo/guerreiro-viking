@@ -70,8 +70,20 @@ const VikingLandingPage = () => {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Falha ao criar preferência de pagamento.');
+        // Tenta obter mais detalhes da resposta de erro
+        let errorDetails = 'Falha ao criar preferência de pagamento. O servidor respondeu com um erro.';
+        try {
+          const errorText = await response.text(); // Pega a resposta como texto primeiro
+          console.error("Resposta crua do servidor (erro):", errorText); // Loga a resposta crua
+          const errorData = JSON.parse(errorText); // Agora tenta fazer o parse como JSON
+          if (errorData && errorData.error) {
+            errorDetails = errorData.error;
+          }
+        } catch (e) { // Captura se response.text() falhar ou JSON.parse falhar
+          console.error("Não foi possível fazer o parse da resposta de erro como JSON ou obter o texto:", e);
+          errorDetails = `Falha ao criar preferência de pagamento. Status: ${response.status}. Não foi possível ler a resposta do servidor.`;
+        }
+        throw new Error(errorDetails);
       }
 
       const { init_point } = await response.json(); // A função backend retorna o init_point
