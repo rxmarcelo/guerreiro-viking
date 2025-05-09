@@ -5,13 +5,13 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Axe, Shield, Instagram, MessageSquare, Zap, Heart } from 'lucide-react';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'; // Adicionado Dialog
-import { Input } from '@/components/ui/input'; // Adicionado Input
+import { Input } from '@/components/ui/input';
 import { Toaster } from '@/components/ui/toaster';
 import { useToast } from '@/components/ui/use-toast';
 
-// Importe seus logos da pasta src/img
-import logoVHTraining from './img/rafael-cardoso.png'; // Ajuste o nome do arquivo se necessário
-import logoGuerreiroViking from './img/valhalla2.png'; // Ajuste o nome do arquivo se necessário
+
+import logoVHTraining from './img/rafael-cardoso.png';
+import logoGuerreiroViking from './img/valhalla2.png';
 
 const VikingLandingPage = () => {
   const { toast } = useToast();
@@ -22,7 +22,7 @@ const VikingLandingPage = () => {
 
   const openEmailDialog = (product) => {
     setSelectedProduct(product);
-    setCustomerEmail(''); // Limpa o e-mail anterior
+    setCustomerEmail('');
     setIsEmailDialogOpen(true);
   };
 
@@ -37,7 +37,6 @@ const VikingLandingPage = () => {
       return;
     }
 
-    // Validação básica de e-mail no frontend
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(customerEmail)) {
       toast({
@@ -57,39 +56,37 @@ const VikingLandingPage = () => {
     });
 
     try {
-      // PASSO CRUCIAL: Chamar sua nova função Netlify para criar a preferência
-      const response = await fetch('/.netlify/functions/createMercadoPagoPreference', { // Corrigido para camelCase
+      const response = await fetch('/.netlify/functions/createMercadoPagoPreference', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          productId: selectedProduct.idSuffix, // Envia um identificador do produto
+        body: JSON.stringify({
+          productId: selectedProduct.idSuffix,
           productTitle: selectedProduct.title,
           productPrice: parseFloat(selectedProduct.price.replace(',', '.')),
-          customerEmail: customerEmail 
+          customerEmail: customerEmail
         }),
       });
 
       if (!response.ok) {
-        // Tenta obter mais detalhes da resposta de erro
         let errorDetails = 'Falha ao criar preferência de pagamento. O servidor respondeu com um erro.';
         try {
-          const errorText = await response.text(); // Pega a resposta como texto primeiro
-          console.error("Resposta crua do servidor (erro):", errorText); // Loga a resposta crua
-          const errorData = JSON.parse(errorText); // Agora tenta fazer o parse como JSON
+          const errorText = await response.text();
+          console.error("Resposta crua do servidor (erro):", errorText);
+          const errorData = JSON.parse(errorText);
           if (errorData && errorData.error) {
             errorDetails = errorData.error;
           }
-        } catch (e) { // Captura se response.text() falhar ou JSON.parse falhar
+        } catch (e) {
           console.error("Não foi possível fazer o parse da resposta de erro como JSON ou obter o texto:", e);
           errorDetails = `Falha ao criar preferência de pagamento. Status: ${response.status}. Não foi possível ler a resposta do servidor.`;
         }
         throw new Error(errorDetails);
       }
 
-      const { init_point } = await response.json(); // A função backend retorna o init_point
+      const { init_point } = await response.json();
       
-      setIsEmailDialogOpen(false); // Fecha o diálogo
-      window.open(init_point, '_blank'); // Redireciona para o link do Mercado Pago
+      setIsEmailDialogOpen(false);
+      window.open(init_point, '_blank');
 
     } catch (error) {
       console.error("Erro ao criar preferência de pagamento:", error);
@@ -198,7 +195,7 @@ const VikingLandingPage = () => {
 
       <section 
         id="fichas" 
-        className="py-16 md:py-24 bg-background relative z-10" // Adicionado relative e z-10
+        className="py-16 md:py-24 bg-background relative z-10"
       >
         <div className="container mx-auto px-6">
           <h2 
@@ -277,8 +274,8 @@ const VikingLandingPage = () => {
               >
                 <Card className={`bg-card/80 backdrop-blur-sm border-2 ${plan.borderColor} shadow-xl ${plan.shadowColor} transition-shadow duration-300 h-full flex flex-col ${
                   index === pricingPlans.length - 1 && pricingPlans.length % 2 !== 0 
-                  ? "md:max-w-lg" // Limita a largura do card centralizado
-                  : "w-full"      // Garante que os outros cards ocupem a coluna
+                  ? "md:max-w-lg"
+                  : "w-full"
                 }`}>
                   <CardHeader className="items-center">
                     <plan.icon className={`h-16 w-16 ${plan.support ? 'text-accent' : 'text-primary'} mb-4`} />
