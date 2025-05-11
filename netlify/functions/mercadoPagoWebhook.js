@@ -87,14 +87,14 @@ exports.handler = async function (event, context) {
     };
   }
 
-  // Revertido para processar SOMENTE pagamentos com status 'approved'
-  if (paymentInfo.status !== "approved") {
-    console.log(`Pagamento ${paymentId} não está com status 'approved' (status atual: ${paymentInfo.status}). Ignorado.`);
-    return {
-      statusCode: 200,
-      body: "Pagamento não aprovado, ignorado.",
-    };
-  }
+  // ALTERAÇÃO TEMPORÁRIA: Comentado para enviar e-mail na criação do pagamento (ex: geração de PIX)
+  // if (paymentInfo.status !== "approved") {
+  //   console.log(`Pagamento ${paymentId} não está com status 'approved' (status atual: ${paymentInfo.status}). Ignorado.`);
+  //   return {
+  //     statusCode: 200,
+  //     body: "Pagamento não aprovado, ignorado.",
+  //   };
+  // }
 
   let userEmail; 
 
