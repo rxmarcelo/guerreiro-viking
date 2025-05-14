@@ -16,6 +16,7 @@ import backgroundImage1Src from './img/bg-dama.jpg';
 import backgroundImage2Src from './img/bg-guerreiro.jpg';
 import fichaMasculinaImgSrc from './img/ficha-guerreiro-viking.jpg';
 import fichaFemininaImgSrc from './img/ficha-dama-escudo.jpg';
+import bkViking from './img/bg-viking.jpg';
 
 const VikingLandingPage = () => {
   const { toast } = useToast();
