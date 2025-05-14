@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Axe, Shield, Instagram, MessageSquare, Zap, Heart } from 'lucide-react';
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'; // Adicionado Dialog
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Toaster } from '@/components/ui/toaster';
 import { useToast } from '@/components/ui/use-toast';
@@ -12,6 +12,10 @@ import { useToast } from '@/components/ui/use-toast';
 
 import logoVHTraining from './img/rafael-cardoso.png';
 import logoGuerreiroViking from './img/valhalla2.png';
+import backgroundImage1Src from './img/bg-dama.jpg';
+import backgroundImage2Src from './img/bg-guerreiro.jpg';
+import fichaMasculinaImgSrc from './img/ficha-guerreiro-viking.jpg';
+import fichaFemininaImgSrc from './img/ficha-dama-escudo.jpg';
 
 const VikingLandingPage = () => {
   const { toast } = useToast();
@@ -101,12 +105,6 @@ const VikingLandingPage = () => {
     }
   };
 
-  const backgroundImage1 = "https://storage.googleapis.com/hostinger-horizons-assets-prod/f9552480-90c3-4198-9467-b312fd76a586/c40faa7c51cc2d7b54f6228aa1a73e4e.jpg";
-  const backgroundImage2 = "https://storage.googleapis.com/hostinger-horizons-assets-prod/f9552480-90c3-4198-9467-b312fd76a586/83022a09cf98a59c5fd3aa9285b5931b.jpg";
-
-  const fichaMasculinaImg = "https://storage.googleapis.com/hostinger-horizons-assets-prod/f9552480-90c3-4198-9467-b312fd76a586/7f386aa144b9abe89ae38eb70835d1bc.jpg";
-  const fichaFemininaImg = "https://storage.googleapis.com/hostinger-horizons-assets-prod/f9552480-90c3-4198-9467-b312fd76a586/7ab4904de7f02114916189d7d341fe89.jpg";
-
 
   return (
     <div className="min-h-screen bg-background text-foreground">
@@ -117,7 +115,7 @@ const VikingLandingPage = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
         className="relative pt-12 pb-20 md:pt-16 md:pb-32 bg-cover bg-center bg-no-repeat bg-fixed bg-image-overlay hero-overlay-tall"
-        style={{ backgroundImage: `url(${backgroundImage1})`, backgroundPosition: 'top' }}
+        style={{ backgroundImage: `url(${backgroundImage1Src})`, backgroundPosition: 'top' }}
       >
         <div className="container mx-auto px-6 text-center content-z-index">
           <div className="flex justify-center items-center space-x-4 sm:space-x-6 md:space-x-10 mb-8 md:mb-12">
@@ -212,7 +210,7 @@ const VikingLandingPage = () => {
               className="flex flex-col items-center"
             >
               <h3 className="text-3xl text-accent mb-6 text-center font-bold" style={{ fontFamily: "'Cinzel Decorative', serif" }}>Ficha Guerreiro Viking</h3>
-              <img src={fichaMasculinaImg} alt="Ficha de Treino Masculina Viking" className="rounded-lg shadow-2xl w-full max-w-md h-auto border-4 border-primary/70 object-cover aspect-[3/4] mb-6" />
+              <img src={fichaMasculinaImgSrc} alt="Ficha de Treino Masculina Viking" className="rounded-lg shadow-2xl w-full max-w-md h-auto border-4 border-primary/70 object-cover aspect-[3/4] mb-6" />
               <p className="text-center text-gray-300 mb-6 max-w-md">Força e brutalidade para construir um físico lendário. Ideal para homens que buscam o ápice da performance.</p>
               <Button size="lg" className="bg-primary hover:bg-yellow-600 text-primary-foreground font-semibold" onClick={() => document.getElementById('pricing').scrollIntoView({ behavior: 'smooth' })}>
                 Ver Planos <Zap className="ml-2 h-5 w-5" />
@@ -226,7 +224,7 @@ const VikingLandingPage = () => {
               className="flex flex-col items-center"
             >
               <h3 className="text-3xl text-accent mb-6 text-center font-bold" style={{ fontFamily: "'Cinzel Decorative', serif" }}>Ficha Dama do Escudo</h3>
-              <img src={fichaFemininaImg} alt="Ficha de Treino Feminina Viking" className="rounded-lg shadow-2xl w-full max-w-md h-auto border-4 border-red-400/70 object-cover aspect-[3/4] mb-6" />
+              <img src={fichaFemininaImgSrc} alt="Ficha de Treino Feminina Viking" className="rounded-lg shadow-2xl w-full max-w-md h-auto border-4 border-red-400/70 object-cover aspect-[3/4] mb-6" />
               <p className="text-center text-gray-300 mb-6 max-w-md">Agilidade, poder e graça para forjar um corpo de guerreira. Perfeita para mulheres prontas para a batalha.</p>
                <Button size="lg" className="bg-red-500 hover:bg-red-600 text-white font-semibold" onClick={() => document.getElementById('pricing').scrollIntoView({ behavior: 'smooth' })}>
                 Ver Planos <Heart className="ml-2 h-5 w-5" />
@@ -239,7 +237,7 @@ const VikingLandingPage = () => {
       <section 
         id="pricing" 
         className="py-16 md:py-24 bg-cover bg-center bg-no-repeat bg-fixed bg-image-overlay"
-        style={{ backgroundImage: `url(${backgroundImage2})`, backgroundPosition: 'top' }}
+        style={{ backgroundImage: `url(${backgroundImage2Src})`, backgroundPosition: 'top' }}
       >
         <div className="container mx-auto px-6 content-z-index">
           <h2 
