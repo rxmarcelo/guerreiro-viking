@@ -27,6 +27,11 @@ const VikingLandingPage = () => {
   const openEmailDialog = (product) => {
     setSelectedProduct(product);
     setCustomerEmail('');
+    // Exemplo de rastreamento de evento AddToCart ou InitiateCheckout ao abrir o diálogo
+    if (typeof fbq === 'function') {
+      fbq('track', 'AddToCart', { content_name: product.title, content_ids: [product.idSuffix], value: parseFloat(product.price.replace(',', '.')), currency: 'BRL' });
+      console.log('Meta Pixel: AddToCart - ', product.title);
+    }
     setIsEmailDialogOpen(true);
   };
 
@@ -59,6 +64,11 @@ const VikingLandingPage = () => {
       duration: 3000,
     });
 
+    // Rastrear evento AddPaymentInfo ou InitiateCheckout
+    if (typeof fbq === 'function') {
+      fbq('track', 'AddPaymentInfo');
+      console.log('Meta Pixel: AddPaymentInfo - Email:', customerEmail);
+    }
     try {
       const response = await fetch('/.netlify/functions/createMercadoPagoPreference', {
         method: 'POST',
@@ -90,6 +100,11 @@ const VikingLandingPage = () => {
       const { init_point } = await response.json();
       
       setIsEmailDialogOpen(false);
+      // Poderia rastrear InitiateCheckout aqui se o AddPaymentInfo foi mais cedo
+      if (typeof fbq === 'function') {
+        fbq('track', 'InitiateCheckout', { content_name: selectedProduct.title, content_ids: [selectedProduct.idSuffix], value: parseFloat(selectedProduct.price.replace(',', '.')), currency: 'BRL', num_items: 1 });
+        console.log('Meta Pixel: InitiateCheckout - ', selectedProduct.title);
+      }
       window.open(init_point, '_blank');
 
     } catch (error) {
@@ -184,7 +199,13 @@ const VikingLandingPage = () => {
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.6 }}
           >
-            <Button size="lg" variant="primary" className="bg-primary hover:bg-yellow-600 text-primary-foreground font-bold text-lg px-10 py-6" onClick={() => document.getElementById('fichas').scrollIntoView({ behavior: 'smooth' })}>
+            <Button size="lg" variant="primary" className="bg-primary hover:bg-yellow-600 text-primary-foreground font-bold text-lg px-10 py-6" onClick={() => {
+              document.getElementById('fichas').scrollIntoView({ behavior: 'smooth' });
+              if (typeof fbq === 'function') {
+                fbq('trackCustom', 'ViewFichasSectionClick');
+                console.log('Meta Pixel: ViewFichasSectionClick');
+              }
+            }}>
               Conheça as Fichas <Axe className="ml-2 h-5 w-5" />
             </Button>
           </motion.div>
@@ -212,7 +233,13 @@ const VikingLandingPage = () => {
               <h3 className="text-3xl text-accent mb-6 text-center font-bold" style={{ fontFamily: "'Cinzel Decorative', serif" }}>Ficha Guerreiro Viking</h3>
               <img src={fichaMasculinaImgSrc} alt="Ficha de Treino Masculina Viking" className="rounded-lg shadow-2xl w-full max-w-md h-auto border-4 border-primary/70 object-cover aspect-[3/4] mb-6" />
               <p className="text-center text-gray-300 mb-6 max-w-md">Força e brutalidade para construir um físico lendário. Ideal para homens que buscam o ápice da performance.</p>
-              <Button size="lg" className="bg-primary hover:bg-yellow-600 text-primary-foreground font-semibold" onClick={() => document.getElementById('pricing').scrollIntoView({ behavior: 'smooth' })}>
+              <Button size="lg" className="bg-primary hover:bg-yellow-600 text-primary-foreground font-semibold" onClick={() => {
+                document.getElementById('pricing').scrollIntoView({ behavior: 'smooth' });
+                if (typeof fbq === 'function') {
+                  fbq('trackCustom', 'ViewPricingFromGuerreiroClick');
+                  console.log('Meta Pixel: ViewPricingFromGuerreiroClick');
+                }
+              }}>
                 Ver Planos <Zap className="ml-2 h-5 w-5" />
               </Button>
             </motion.div>
@@ -226,7 +253,13 @@ const VikingLandingPage = () => {
               <h3 className="text-3xl text-accent mb-6 text-center font-bold" style={{ fontFamily: "'Cinzel Decorative', serif" }}>Ficha Dama do Escudo</h3>
               <img src={fichaFemininaImgSrc} alt="Ficha de Treino Feminina Viking" className="rounded-lg shadow-2xl w-full max-w-md h-auto border-4 border-red-400/70 object-cover aspect-[3/4] mb-6" />
               <p className="text-center text-gray-300 mb-6 max-w-md">Agilidade, poder e graça para forjar um corpo de guerreira. Perfeita para mulheres prontas para a batalha.</p>
-               <Button size="lg" className="bg-red-500 hover:bg-red-600 text-white font-semibold" onClick={() => document.getElementById('pricing').scrollIntoView({ behavior: 'smooth' })}>
+               <Button size="lg" className="bg-red-500 hover:bg-red-600 text-white font-semibold" onClick={() => {
+                document.getElementById('pricing').scrollIntoView({ behavior: 'smooth' });
+                if (typeof fbq === 'function') {
+                  fbq('trackCustom', 'ViewPricingFromDamaClick');
+                  console.log('Meta Pixel: ViewPricingFromDamaClick');
+                }
+               }}>
                 Ver Planos <Heart className="ml-2 h-5 w-5" />
               </Button>
             </motion.div>
